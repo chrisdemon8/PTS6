@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
-import './App.css';
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import './App.css'; 
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'; 
 import HomePage from './pages/HomePage';
 import FolderPage from './pages/FolderPage';
 import ClientPage from './pages/ClientPage';
