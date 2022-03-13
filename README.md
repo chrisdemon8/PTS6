@@ -25,6 +25,24 @@
 - juste une version de build pas de dev pour l'instant (à voir si utile)
  
 
+
+## Build ionic capacitor 
+
+### Attention webpack cli compatible uniquement avec node : 
+- ^12.22.0 || ^14.17.0 || >=16
+
+### Commande pour lancer l'application sur android
+
+Build le code du site 
+- `npm run build`
+
+Créer la build android depuis le build du site 
+- `npx cap add android`
+
+Avoir android studio sur son pc et lancer 
+- `npx cap open android`
+ 
+
 ## Build electron 
 
 - `npm run electron:dev`
