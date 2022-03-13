@@ -6,21 +6,35 @@
 - SALICE Jean-Michaël 
 - PÉTRÉ Christophe
   
+
+# Les différentes build
+
+## Version de node 
+- 16.14.0  
+
+
 ## Build webpack 
 
-# `npm start`
+### Attention webpack cli compatible uniquement avec node : 
+- ^12.22.0 || ^14.17.0 || >=16
 
+### Commande pour build le bundle.js 
+ 
+- `npm run webpack:build`
+- Afin d'utiliser le bundle qui se trouve dans le dossier dist il faut lancer un localhost pour lire index.html qui permet de lire le site build avec webpack
+- juste une version de build pas de dev pour l'instant (à voir si utile)
+ 
 
 ## Build electron 
 
-# `npm run electron:dev`
+- `npm run electron:dev`
 
 Runs the Electron app in the development mode.
 
 The Electron app will reload if you make edits in the `electron` directory.<br>
 You will also see any lint errors in the console.
 
-# `npm run electron:build`
+- `npm run electron:build`
 
 Builds the Electron app package for production to the `dist` folder.
 
