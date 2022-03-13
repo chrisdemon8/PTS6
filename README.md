@@ -91,3 +91,16 @@ my-app/
     └── my-app-0.1.0.dmg
 ```
   
+
+## Lien utile pour les build 
+
+# ionic capacitor 
+- `https://capacitorjs.com/solution/react`
+
+# webpack
+- `https://webpack.js.org/loaders/css-loader/`
+- `https://webpack.js.org/guides/getting-started/`
+- `https://webpack.js.org/guides/typescript/`
+
+# electron 
+- `https://github.com/yhirose/react-typescript-electron-sample-with-create-react-app-and-electron-builder`
