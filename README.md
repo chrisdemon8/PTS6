@@ -18,9 +18,12 @@
 ### Attention webpack cli compatible uniquement avec node : 
 - ^12.22.0 || ^14.17.0 || >=16
 
+### Pour lancer en mode dev web 
+- `npm run start:web` 
+
 ### Commande pour build le bundle.js 
  
-- `npm run webpack:build`
+- `npm run build:web`
 - Afin d'utiliser le bundle qui se trouve dans le dossier dist il faut lancer un localhost pour lire index.html qui permet de lire le site build avec webpack
 - juste une version de build pas de dev pour l'instant (à voir si utile)
  
@@ -34,7 +37,7 @@
 ### Commande pour lancer l'application sur android
 
 Build le code du site 
-- `npm run build`
+- `npm run build:mobile`
 
 Créer la build android depuis le build du site 
 - `npx cap add android`

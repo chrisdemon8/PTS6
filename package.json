@@ -32,11 +32,14 @@
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
+        "start:web": "cross-env REACT_APP_BUILD_TYPE=web react-scripts start",
+        "build:web": "cross-env REACT_APP_BUILD_TYPE=web react-scripts start",
+        "build:mobile": "cross-env REACT_APP_BUILD_TYPE=mobile react-scripts build",
         "test": "react-scripts test",
         "postinstall": "electron-builder install-app-deps",
         "webpack:build": "webpack",
-        "electron:dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && tsc -p electron -w\" \"wait-on http://localhost:3000 && tsc -p electron && electron .\"",
-        "electron:build": "yarn build && tsc -p electron && electron-builder",
+        "electron:dev": "cross-env REACT_APP_BUILD_TYPE=electron concurrently \"cross-env BROWSER=none REACT_APP_BUILD_TYPE=electron yarn start\" \"wait-on http://localhost:3000 && tsc -p electron -w\" \"wait-on http://localhost:3000 && tsc -p electron && electron .\"",
+        "electron:build": "cross-env REACT_APP_BUILD_TYPE=electron  yarn build && tsc -p electron && electron-builder",
         "eject": "react-scripts eject"
     },
     "build": {
