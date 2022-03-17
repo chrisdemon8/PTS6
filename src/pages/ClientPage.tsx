@@ -7,7 +7,7 @@ const ClientPage = () => {
   return (
     <> 
     ClientPage
-    <Table data={data} />
+    <Table randData={data} />
     </>
   )
 } 
