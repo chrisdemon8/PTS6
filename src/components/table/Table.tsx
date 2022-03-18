@@ -21,6 +21,9 @@ import {
 } from "@material-ui/icons";
 import { Container } from "@material-ui/core";
 import { Client } from "../../entity/type"; 
+import { useNavigate } from 'react-router-dom';
+ 
+
 
 const tableIcons: Icons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -50,26 +53,31 @@ type Props = {
     randData: Client[];
 };
 
-const columns: Array<Column<Client>> = [
-    { title: "Id", field: "idClient" },
-    { title: "First Name", field: "firstName" },
-    { title: "Last Name", field: "lastName" }
+const columns: Array<Column<Client>> = [ 
+    { title: "First Name", field: "firstName" } 
 ];
 
 
+const localization = {
+    'body.editRow.deleteText' :'Test'
+}
 
 const options = {
     paging: true,
     pageSize: 10,
     emptyRowsWhenPaging: false,
-    pageSizeOptions: [10, 20, 50]
+    pageSizeOptions: [10, 20, 50],
+   
+
 };
 
 export const Table = ({ randData }: Props) => {
 
+    const navigate = useNavigate();
+
     const [data, setData] = useState([
-        { idClient: 1, firstName: 'a', lastName: "test"  },
-        { idClient: 2, firstName: 'Baaaaran', lastName: "zt"  }]
+        { id: 1, firstName: 'a', lastName: "test"  },
+        { id: 2, firstName: 'Baaaaran', lastName: "zt"  }]
     );
 
     return (
@@ -79,6 +87,8 @@ export const Table = ({ randData }: Props) => {
                 data={data}
                 icons={tableIcons}
                 options={options}
+                onRowClick={(event, rowData) => { navigate("/client/"+ rowData.id) }}
+                localization={{body : { editRow: { deleteText : 'Êtes-vous sûr de supprimer cette ligne ?'}, deleteTooltip : "Supprimer"}}}
                 editable={{
                     onRowAdd: newData =>
                         new Promise((resolve: any, reject: any) => {
