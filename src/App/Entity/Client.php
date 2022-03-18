@@ -1,22 +1,25 @@
 <?php
 
+namespace App\Entity;
+use PDO;
+require_once __DIR__ . '../../Controller/Connection/Connection.php';
+
 class Client
 {
-    private $firstName;
-    private $lastName;
-    private $address;
-    private $birthDate;
-    private $createdAt;
+    private int $id;
+    private string $firstName;
+    private string $lastName;
+    private string $address;
+    private \DateTime $birthDate;
+    private \DateTime $createdAt;
 
-    /**
-     * @param $id
-     * @param $firstName
-     * @param $lastName
-     * @param $address
-     * @param $birthDate
-     * @param $createdAt
-     */
-    public function __construct($firstName, $lastName, $address, $birthDate, $createdAt)
+
+    public function __construct(
+        $firstName,
+        $lastName,
+        $address,
+        $birthDate,
+        $createdAt)
     {
         $this->firstName = $firstName;
         $this->lastName = $lastName;
@@ -25,12 +28,25 @@ class Client
         $this->createdAt = $createdAt;
     }
 
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function setId(int $id)
+    {
+        $this->id = $id;
+        return $this;
+    }
 
 
     /**
      * @return mixed
      */
-    public function getFirstName()
+    public function getFirstName(): string
     {
         return $this->firstName;
     }
@@ -117,7 +133,26 @@ class Client
         return $this;
     }
 
+    public function getClients()
+    {
+        $connection = getConnection();
+        $sql = "SELECT * FROM `av_client`";
+        $stmt = $connection->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 
+//    public function getClientsWithDetails(): bool|array
+//    {
+//        $connection = getConnection();
+//        $sql = "SELECT client_first_name, client_last_name,client_adress, client_birthday, client_createdAt, code, case_description, case_createdAt,
+//                case_status, case_end_date, event_description, event_date, event_duration
+//                FROM `av_client`,`av_case`,`av_event`,`av_link_case_client`
+//                WHERE av_client.client_id = av_link_case_client.link_id_client
+//                AND av_case.case_id = av_link_case_client.link_id_case
+//                ORDER BY client_first_name, client_last_name";
+//        $stmt = $connection->query($sql);
+//        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+//    }
 
 }

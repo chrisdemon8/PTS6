@@ -1,27 +1,28 @@
 <?php
 
+namespace App\Entity;
+use PDO;
+require_once __DIR__ . '../../Controller/Connection/Connection.php';
+
 class Cases
 {
-    protected $caseDescription;
-    protected $caseCreatedAt;
-    protected $caseStatus;
-    protected $caseEndDate;
-    protected $caseIdClient;
+    protected string $caseDescription;
+    protected \DateTime $caseCreatedAt;
+    protected string $caseStatus;
+    protected \DateTime $caseEndDate;
 
     /**
      * @param $caseDescription
      * @param $caseCreatedAt
      * @param $caseStatus
      * @param $caseEndDate
-     * @param $caseIdClient
      */
-    public function __construct($caseDescription, $caseCreatedAt, $caseStatus, $caseEndDate, $caseIdClient)
+    public function __construct($caseDescription, $caseCreatedAt, $caseStatus, $caseEndDate)
     {
         $this->caseDescription = $caseDescription;
         $this->caseCreatedAt = $caseCreatedAt;
         $this->caseStatus = $caseStatus;
         $this->caseEndDate = $caseEndDate;
-        $this->caseIdClient = $caseIdClient;
     }
 
     /**
@@ -96,22 +97,13 @@ class Cases
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCaseIdClient()
-    {
-        return $this->caseIdClient;
-    }
 
-    /**
-     * @param mixed $caseIdClient
-     * @return Cases
-     */
-    public function setCaseIdClient($caseIdClient)
+    public function getCases()
     {
-        $this->caseIdClient = $caseIdClient;
-        return $this;
+        $connection = getConnection();
+        $sql = "SELECT * FROM `av_case`";
+        $stmt = $connection->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
 

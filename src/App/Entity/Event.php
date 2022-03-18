@@ -1,11 +1,16 @@
 <?php
 
+namespace App\Entity;
+use DateTime;
+use PDO;
+require_once __DIR__ . '../../Controller/Connection/Connection.php';
+
 class Event
 {
-    private $eventDescription;
-    private $eventDate;
-    private $eventDuration;
-    private $eventCaseId;
+    private string $eventDescription;
+    private DateTime $eventDate;
+    private int $eventDuration;
+    private int $eventCaseId;
 
     /**
      * @param $eventDescription
@@ -93,6 +98,12 @@ class Event
         return $this;
     }
 
-
+    public function getEvents()
+    {
+        $connection = getConnection();
+        $sql = "SELECT * FROM `av_event`";
+        $stmt = $connection->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 }
