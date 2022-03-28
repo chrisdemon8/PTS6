@@ -1,0 +1,44 @@
+.content {
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+@media screen and (max-width: 600px) {
+    .header {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .headermain {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+.headermain {
+    display: flex;
+}
+
+.imageclient {
+    width: 100px;
+}
+
+.labelclient {
+    background-color: white;
+    height: 100%;
+}
+
+.groupbutton {
+    display: flex;
+    justify-content: center;
+}

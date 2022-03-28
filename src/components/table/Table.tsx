@@ -87,7 +87,7 @@ export const Table = ({ randData }: Props) => {
                 data={data}
                 icons={tableIcons}
                 options={options}
-                onRowClick={(event, rowData) => { navigate("/client/"+ rowData.id) }}
+                onRowClick={(event, rowData) => { navigate("/clients/"+ rowData.id) }}
                 localization={{body : { editRow: { deleteText : 'Êtes-vous sûr de supprimer cette ligne ?'}, deleteTooltip : "Supprimer"}}}
                 editable={{
                     onRowAdd: newData =>
