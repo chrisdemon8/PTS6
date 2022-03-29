@@ -4,3 +4,8 @@ export type Client = {
     lastName: string;
   };
   
+  export type RowType = {
+    title: string;
+    field: string; 
+  };
+  

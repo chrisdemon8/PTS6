@@ -7,6 +7,7 @@ import ClientPage from './pages/ClientPage';
 import NotFoundPage from './pages/NotFoundPage';
 import Layout from './layout/Layout';
 import ClientDetailPage from './pages/ClientDetail';
+import FolderDetailPage from './pages/FolderDetailPage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path='/accueil' element={<HomePage />} />
             <Route path='/clients' element={<ClientPage />} />
             <Route path='/clients/:id' element={<ClientDetailPage />} />
+            <Route path='/dossiers/:id' element={<FolderDetailPage />} />
             <Route path='/dossiers' element={<FolderPage />} />
             <Route path='/dossiers/en-cours' element={<FolderPage />} />
             <Route path='/dossiers/cloturees' element={<FolderPage />} />

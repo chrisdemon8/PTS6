@@ -6,7 +6,7 @@ import BreadcrumbsComponent from '../components/breadcrumbs/Breadcrumbs';
 import ModalComponent from '../components/modal/Modal';
 import styles from './css/clientdetail.module.css'; // Import css modules stylesheet as styles
 
-const ClientDetailPage = () => {
+const FolderDetailPage = () => {
 
 
   let { id } = useParams();
@@ -33,13 +33,13 @@ const ClientDetailPage = () => {
   }
 
   const handleSubmit = () => {
-    alert("modification d'un client"); 
+    alert("modification d'un dossier"); 
   }
 
   
   return (
     <>
-      <BreadcrumbsComponent customLabel={"Robert Dupont"}></BreadcrumbsComponent>
+      <BreadcrumbsComponent customLabel={"Dossier 5240252"}></BreadcrumbsComponent>
       <div className={styles.content}>
         <div className={styles.header}>
           <div className={styles.headermain}>
@@ -128,4 +128,4 @@ const ClientDetailPage = () => {
     </>
   )
 }
-export default ClientDetailPage
+export default FolderDetailPage;

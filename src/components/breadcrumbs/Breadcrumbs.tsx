@@ -22,6 +22,7 @@ interface ListItemLinkProps extends ListItemProps {
 const breadcrumbNameMap: { [key: string]: string } = {
     '/': 'Home',
     '/clients': 'Clients',
+    '/dossiers': 'Dossiers',
 };
  
 

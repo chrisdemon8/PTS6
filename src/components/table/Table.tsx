@@ -1,7 +1,7 @@
 import React, { forwardRef, useState } from "react";
 import MaterialTable, { Column, Icons } from "@material-table/core";
 // @ts-ignore
-import { v4 as uuidv4 } from 'uuid'; 
+import { v4 as uuidv4 } from 'uuid';
 import {
     AddBox,
     ArrowDownward,
@@ -20,9 +20,9 @@ import {
     ViewColumn
 } from "@material-ui/icons";
 import { Container } from "@material-ui/core";
-import { Client } from "../../entity/type"; 
-import { useNavigate } from 'react-router-dom';
- 
+import { Client, RowType } from "../../entity/type";
+import { useLocation, useNavigate } from 'react-router-dom';
+
 
 
 const tableIcons: Icons = {
@@ -53,33 +53,36 @@ type Props = {
     randData: Client[];
 };
 
-const columns: Array<Column<Client>> = [ 
-    { title: "First Name", field: "firstName" } 
+const columnsss: Array<Column<RowType>> = [
+    { title: "Prénom", field: "firstName" },
+    { title: "Nom de famille", field: "lastName" }
 ];
 
 
 const localization = {
-    'body.editRow.deleteText' :'Test'
+    'body.editRow.deleteText': 'Test'
 }
 
 const options = {
     paging: true,
     pageSize: 10,
     emptyRowsWhenPaging: false,
-    pageSizeOptions: [10, 20, 50],
-   
-
+    pageSizeOptions: [10, 20, 50], 
 };
 
-export const Table = ({ randData }: Props) => {
-
+export const Table = ({ columns, dataFrom }: any) => {
+  
     const navigate = useNavigate();
 
-    const [data, setData] = useState([
-        { id: 1, firstName: 'a', lastName: "test"  },
-        { id: 2, firstName: 'Baaaaran', lastName: "zt"  }]
-    );
+    const [data, setData] = useState(dataFrom);
 
+
+    const location = useLocation();
+
+    const pathnames = location.pathname.split('/').filter((x) => x);
+
+    console.log(pathnames); 
+ 
     return (
         <Container>
             <MaterialTable
@@ -87,8 +90,8 @@ export const Table = ({ randData }: Props) => {
                 data={data}
                 icons={tableIcons}
                 options={options}
-                onRowClick={(event, rowData) => { navigate("/clients/"+ rowData.id) }}
-                localization={{body : { editRow: { deleteText : 'Êtes-vous sûr de supprimer cette ligne ?'}, deleteTooltip : "Supprimer"}}}
+                onRowClick={(event, rowData) => { navigate("/"+ pathnames[0] +"/" + rowData.id) }}
+                localization={{ body: { editRow: { deleteText: 'Êtes-vous sûr de supprimer cette ligne ?' }, deleteTooltip: "Supprimer" } }}
                 editable={{
                     onRowAdd: newData =>
                         new Promise((resolve: any, reject: any) => {
