@@ -11,8 +11,8 @@ use App\Controller\Event\ReadEvent;
 return [
 
     //API
-    new Route('GET', '/api/client', ReadClient::class),
-    new Route('GET', '/api/all', ReadAll::class),
+    new Route('GET', '/api/client/{id}', ReadClient::class),
+    new Route('GET', '/api/clients', ReadAll::class),
     new Route('GET', '/api/case', ReadCase::class),
     new Route('GET', '/api/event', ReadEvent::class),
 

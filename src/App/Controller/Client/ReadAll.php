@@ -11,7 +11,7 @@ class ReadAll extends AbstractController
     {
         $date = new \DateTime('now');
         $client = new Client('','','',$date,$date);
-        $client = $client->getClientsWithDetails();
+        $client = $client->getClients();
         return $this->buildResponse($client);
     }
 }

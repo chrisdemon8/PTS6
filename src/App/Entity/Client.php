@@ -133,26 +133,31 @@ class Client
         return $this;
     }
 
-    public function getClients()
+
+    public function getClientById($id): bool|array
     {
         $connection = getConnection();
-        $sql = "SELECT * FROM `av_client`";
-        $stmt = $connection->query($sql);
+        $req = "SELECT * FROM av_client c
+                INNER JOIN av_link_case_client lcc ON lcc.link_id_client = c.client_id
+                INNER JOIN av_case ca ON ca.case_id = lcc.link_id_client
+                INNER JOIN av_event e ON e.event_id = ca.case_id
+                WHERE c.client_di = ".$id;
+        $stmt = $connection->prepare($req);
+        $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
 
-//    public function getClientsWithDetails(): bool|array
-//    {
-//        $connection = getConnection();
-//        $sql = "SELECT client_first_name, client_last_name,client_adress, client_birthday, client_createdAt, code, case_description, case_createdAt,
-//                case_status, case_end_date, event_description, event_date, event_duration
-//                FROM `av_client`,`av_case`,`av_event`,`av_link_case_client`
-//                WHERE av_client.client_id = av_link_case_client.link_id_client
-//                AND av_case.case_id = av_link_case_client.link_id_case
-//                ORDER BY client_first_name, client_last_name";
-//        $stmt = $connection->query($sql);
-//        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-//    }
+    public function getClients(): bool|array
+    {
+        $connection = getConnection();
+        $req = "SELECT * FROM av_client c
+                INNER JOIN av_link_case_client lcc ON lcc.link_id_client = c.client_id
+                INNER JOIN av_case ca ON ca.case_id = lcc.link_id_client
+                INNER JOIN av_event e ON e.event_id = ca.case_id";
+        $stmt = $connection->prepare($req);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 }

@@ -101,8 +101,9 @@ class Cases
     public function getCases()
     {
         $connection = getConnection();
-        $sql = "SELECT * FROM `av_case`";
-        $stmt = $connection->query($sql);
+        $req = "SELECT * FROM av_case";
+        $stmt = $connection->prepare($req);
+        $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 

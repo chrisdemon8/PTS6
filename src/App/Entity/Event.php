@@ -101,8 +101,9 @@ class Event
     public function getEvents()
     {
         $connection = getConnection();
-        $sql = "SELECT * FROM `av_event`";
-        $stmt = $connection->query($sql);
+        $req = "SELECT * FROM av_event";
+        $stmt = $connection->prepare($req);
+        $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
