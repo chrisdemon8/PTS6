@@ -38,8 +38,7 @@ const LinkRouter = (props: LinkRouterProps) => (
 const BreadcrumbsComponent = (customLabel: any) => {
     const location = useLocation();
     const pathnames = location.pathname.split('/').filter((x) => x);
-
-    console.log(customLabel);
+ 
     return (
         <Breadcrumbs aria-label="breadcrumb">
             <LinkRouter underline="hover" color="inherit" to="/">

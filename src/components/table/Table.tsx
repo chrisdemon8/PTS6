@@ -80,8 +80,7 @@ export const Table = ({ columns, dataFrom }: any) => {
     const location = useLocation();
 
     const pathnames = location.pathname.split('/').filter((x) => x);
-
-    console.log(pathnames); 
+ 
  
     return (
         <Container>
