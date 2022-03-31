@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 use PDO;
-require_once __DIR__ . '../../Controller/Connection/Connection.php';
+require_once __DIR__ . '../../Controller/Connexion/Connexion.php';
 
 class Client
 {
@@ -10,154 +10,152 @@ class Client
     private string $firstName;
     private string $lastName;
     private string $address;
-    private \DateTime $birthDate;
     private \DateTime $createdAt;
+    private \DateTime $birthDate;
 
 
-    public function __construct(
-        $firstName,
-        $lastName,
-        $address,
-        $birthDate,
-        $createdAt)
+    public function __construct()
     {
-        $this->firstName = $firstName;
-        $this->lastName = $lastName;
-        $this->address = $address;
-        $this->birthDate = $birthDate;
-        $this->createdAt = $createdAt;
+        $this->createdAt = new \DateTime();
+        $this->birthDate = new \DateTime();
     }
 
-    /**
-     * @return int
-     */
+
     public function getId(): int
     {
         return $this->id;
     }
 
-    public function setId(int $id)
+    public function setId(int $id): self
     {
         $this->id = $id;
         return $this;
     }
 
-
-    /**
-     * @return mixed
-     */
     public function getFirstName(): string
     {
         return $this->firstName;
     }
 
-    /**
-     * @param mixed $firstName
-     * @return Client
-     */
-    public function setFirstName($firstName)
+    public function setFirstName(?string $firstName): self
     {
         $this->firstName = $firstName;
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getLastName()
+    public function getLastName(): string
     {
         return $this->lastName;
     }
 
-    /**
-     * @param mixed $lastName
-     * @return Client
-     */
-    public function setLastName($lastName)
+    public function setLastName(?string $lastName): self
     {
         $this->lastName = $lastName;
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getAddress()
+    public function getAddress(): string
     {
         return $this->address;
     }
 
-    /**
-     * @param mixed $address
-     * @return Client
-     */
-    public function setAddress($address)
+    public function setAddress(?string $address): self
     {
         $this->address = $address;
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getBirthDate()
+    public function getBirthDate(): \DateTime
     {
         return $this->birthDate;
     }
 
-    /**
-     * @param mixed $birthDate
-     * @return Client
-     */
-    public function setBirthDate($birthDate)
+    public function setBirthDate(\DateTime $birthDate): self
     {
         $this->birthDate = $birthDate;
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCreatedAt()
+    public function getCreatedAt(): \DateTime
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param mixed $createdAt
-     * @return Client
-     */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(\DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
         return $this;
     }
 
+    public function getEvents($id): bool|array
+    {
+        $connexion = getConnexion();
+        $req = "SELECT event_id, event_description, event_date, event_duration FROM av_event e, av_case c
+                WHERE c.case_id = e.event_id_case
+                AND e.event_id_case =" . $id;
+        $stmt = $connexion->prepare($req);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getCases($id): bool|array
+    {
+        $connexion = getConnexion();
+        $req = "SELECT case_id, code, case_description, case_createdAt, case_status, case_end_date
+                FROM av_case c, av_link_case_client lcc
+                WHERE c.case_id = lcc.link_id_case
+                AND lcc.link_id_client =" . $id;
+        $stmt = $connexion->prepare($req);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        for ($i = 0; $i < count($result); $i++) {
+            $result[$i]['event'] = $this->getEvents($result[$i]['case_id']);
+        }
+        return $result;
+    }
+
 
     public function getClientById($id): bool|array
     {
-        $connection = getConnection();
-        $req = "SELECT * FROM av_client c
-                INNER JOIN av_link_case_client lcc ON lcc.link_id_client = c.client_id
-                INNER JOIN av_case ca ON ca.case_id = lcc.link_id_client
-                INNER JOIN av_event e ON e.event_id = ca.case_id
-                WHERE c.client_di = ".$id;
-        $stmt = $connection->prepare($req);
+        $connexion = getConnexion();
+        $req = "SELECT * 
+                FROM av_client c
+                WHERE c.client_id = " . $id;
+        $stmt = $connexion->prepare($req);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        for ($i = 0; $i < count($result); $i++) {
+            $result[$i]['cases'] = $this->getCases($result[$i]['client_id']);
+        }
+
+        return $result;
     }
 
 
     public function getClients(): bool|array
     {
-        $connection = getConnection();
-        $req = "SELECT * FROM av_client c
-                INNER JOIN av_link_case_client lcc ON lcc.link_id_client = c.client_id
-                INNER JOIN av_case ca ON ca.case_id = lcc.link_id_client
-                INNER JOIN av_event e ON e.event_id = ca.case_id";
-        $stmt = $connection->prepare($req);
+        $connexion = getConnexion();
+        $req = "SELECT * FROM av_client";
+        $stmt = $connexion->prepare($req);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        for ($i = 0; $i < count($result); $i++) {
+            $result[$i]['cases'] = $this->getCases($result[$i]['client_id']);
+        }
+
+        return $result;
     }
 
+//    public function addClient($_POST)
+//    {
+//        $connexion = getConnexion();
+//        $req = "INSERT INTO av_client (client_firstName, client_lastName, client_address, client_birthDate)
+//                VALUES (:firstName, :lastName, :address, :birthDate)";
+//        $stmt = $connexion->prepare($req);
+//        $stmt->bindParam(':firstName', $_POST['firstName']);
+//        $stmt->bindParam(':lastName', $_POST['lastName']);
+//        $stmt->bindParam(':address', $_POST['address']);
+//        $stmt->bindParam(':birthDate', $_POST['birthDate']);
+//        $stmt->execute();}
+//}
 }

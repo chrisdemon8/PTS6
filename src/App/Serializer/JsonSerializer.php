@@ -12,9 +12,7 @@ class JsonSerializer
     {
         $encoders = [new JsonEncoder()];
         $normalizers = [new GetSetMethodNormalizer()];
-
         $serializer = new Serializer($normalizers, $encoders);
-
         return $serializer->serialize($data, 'json');
     }
 }

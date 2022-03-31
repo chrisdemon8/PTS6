@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 use PDO;
-require_once __DIR__ . '../../Controller/Connection/Connection.php';
+use Symfony\Component\Serializer\Annotation\Groups;
+
+class_exists(Groups::class);
+require_once __DIR__ . '../../Controller/Connexion/Connexion.php';
 
 class Cases
 {
@@ -11,100 +14,96 @@ class Cases
     protected string $caseStatus;
     protected \DateTime $caseEndDate;
 
-    /**
-     * @param $caseDescription
-     * @param $caseCreatedAt
-     * @param $caseStatus
-     * @param $caseEndDate
-     */
-    public function __construct($caseDescription, $caseCreatedAt, $caseStatus, $caseEndDate)
+
+    public function __construct()
     {
-        $this->caseDescription = $caseDescription;
-        $this->caseCreatedAt = $caseCreatedAt;
-        $this->caseStatus = $caseStatus;
-        $this->caseEndDate = $caseEndDate;
+        $this->caseCreatedAt = new \DateTime();
+        $this->caseEndDate = new \DateTime();
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCaseDescription()
+    public function getCaseDescription(): string
     {
         return $this->caseDescription;
     }
 
-    /**
-     * @param mixed $caseDescription
-     * @return Cases
-     */
-    public function setCaseDescription($caseDescription)
+    public function setCaseDescription(?string $caseDescription): self
     {
         $this->caseDescription = $caseDescription;
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCaseCreatedAt()
+    public function getCaseCreatedAt(): \DateTime
     {
         return $this->caseCreatedAt;
     }
 
-    /**
-     * @param mixed $caseCreatedAt
-     * @return Cases
-     */
-    public function setCaseCreatedAt($caseCreatedAt)
+    public function setCaseCreatedAt(\DateTime $caseCreatedAt): self
     {
         $this->caseCreatedAt = $caseCreatedAt;
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCaseStatus()
+    public function getCaseStatus(): string
     {
         return $this->caseStatus;
     }
 
-    /**
-     * @param mixed $caseStatus
-     * @return Cases
-     */
-    public function setCaseStatus($caseStatus)
+    public function setCaseStatus(?string $caseStatus): self
     {
         $this->caseStatus = $caseStatus;
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCaseEndDate()
+    public function getCaseEndDate(): \DateTime
     {
         return $this->caseEndDate;
     }
 
-    /**
-     * @param mixed $caseEndDate
-     * @return Cases
-     */
-    public function setCaseEndDate($caseEndDate)
+    public function setCaseEndDate(\DateTime $caseEndDate): self
     {
         $this->caseEndDate = $caseEndDate;
         return $this;
     }
 
 
-    public function getCases()
+    public function getCases(): bool|array
     {
-        $connection = getConnection();
-        $req = "SELECT * FROM av_case";
-        $stmt = $connection->prepare($req);
+        $connexion = getConnexion();
+        $req = "SELECT * FROM av_case c, av_link_case_client lcc
+                WHERE c.case_id = lcc.link_id_case";
+        $stmt = $connexion->prepare($req);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        for ($i = 0; $i < count($result); $i++) {
+            $result[$i]['event'] = $this->getEvents($result[$i]['case_id']);
+        }
+        return $result;
+    }
+    public function getEvents($id): bool|array
+    {
+        $connexion = getConnexion();
+        $req = "SELECT event_id, event_description, event_date, event_duration FROM av_event e, av_case c
+                WHERE c.case_id = e.event_id_case
+                AND e.event_id_case =" . $id;
+        $stmt = $connexion->prepare($req);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getCaseById($id): bool|array
+    {
+        $connexion = getConnexion();
+        $req = "SELECT * 
+                FROM av_case c
+                WHERE c.case_id = " . $id;
+        $stmt = $connexion->prepare($req);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        for ($i = 0; $i < count($result); $i++) {
+            $result[$i]['event'] = $this->getEvents($result[$i]['case_id']);
+        }
+
+        return $result;
     }
 
 

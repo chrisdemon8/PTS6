@@ -1,98 +1,61 @@
 <?php
 
 namespace App\Entity;
-use DateTime;
 use PDO;
-require_once __DIR__ . '../../Controller/Connection/Connection.php';
+require_once __DIR__ . '../../Controller/Connexion/Connexion.php';
 
 class Event
 {
     private string $eventDescription;
-    private DateTime $eventDate;
+    private \DateTime $eventDate;
     private int $eventDuration;
     private int $eventCaseId;
 
-    /**
-     * @param $eventDescription
-     * @param $eventDate
-     * @param $eventDuration
-     * @param $eventCaseId
-     */
-    public function __construct($eventDescription, $eventDate, $eventDuration, $eventCaseId)
+    public function __construct()
     {
-        $this->eventDescription = $eventDescription;
-        $this->eventDate = $eventDate;
-        $this->eventDuration = $eventDuration;
-        $this->eventCaseId = $eventCaseId;
+        $this->eventDate = new \DateTime();
+
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEventDescription()
+    public function getEventDescription(): string
     {
         return $this->eventDescription;
     }
 
-    /**
-     * @param mixed $eventDescription
-     * @return Event
-     */
-    public function setEventDescription($eventDescription)
+    public function setEventDescription(?string $eventDescription): self
     {
         $this->eventDescription = $eventDescription;
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEventDate()
+    public function getEventDate(): \DateTime
     {
         return $this->eventDate;
     }
 
-    /**
-     * @param mixed $eventDate
-     * @return Event
-     */
-    public function setEventDate($eventDate)
+    public function setEventDate(\DateTime $eventDate): self
     {
         $this->eventDate = $eventDate;
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEventDuration()
+    public function getEventDuration(): int
     {
         return $this->eventDuration;
     }
 
-    /**
-     * @param mixed $eventDuration
-     * @return Event
-     */
-    public function setEventDuration($eventDuration)
+    public function setEventDuration(?int $eventDuration): self
     {
         $this->eventDuration = $eventDuration;
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEventCaseId()
+    public function getEventCaseId(): int
     {
         return $this->eventCaseId;
     }
 
-    /**
-     * @param mixed $eventCaseId
-     * @return Event
-     */
-    public function setEventCaseId($eventCaseId)
+    public function setEventCaseId(?int $eventCaseId): self
     {
         $this->eventCaseId = $eventCaseId;
         return $this;
@@ -100,7 +63,7 @@ class Event
 
     public function getEvents()
     {
-        $connection = getConnection();
+        $connection = getConnexion();
         $req = "SELECT * FROM av_event";
         $stmt = $connection->prepare($req);
         $stmt->execute();
