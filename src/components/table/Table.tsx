@@ -52,11 +52,7 @@ const tableIcons: Icons = {
 type Props = {
     randData: Client[];
 };
-
-const columnsss: Array<Column<RowType>> = [
-    { title: "Prénom", field: "firstName" },
-    { title: "Nom de famille", field: "lastName" }
-];
+ 
 
 
 const localization = {
@@ -70,59 +66,27 @@ const options = {
     pageSizeOptions: [10, 20, 50], 
 };
 
-export const Table = ({ columns, dataFrom }: any) => {
+export const Table = ({ columns, dataFrom, nameId }: any) => {
   
     const navigate = useNavigate();
 
     const [data, setData] = useState(dataFrom);
-
+ 
 
     const location = useLocation();
 
     const pathnames = location.pathname.split('/').filter((x) => x);
  
- 
     return (
         <Container>
             <MaterialTable
                 columns={columns}
-                data={data}
+                data={dataFrom}
                 icons={tableIcons}
                 options={options}
-                onRowClick={(event, rowData) => { navigate("/"+ pathnames[0] +"/" + rowData.id) }}
+                onRowClick={(event, rowData) => { navigate("/"+ pathnames[0] +"/" + rowData[nameId]) }}
                 localization={{ body: { editRow: { deleteText: 'Êtes-vous sûr de supprimer cette ligne ?' }, deleteTooltip: "Supprimer" } }}
-                editable={{
-                    onRowAdd: newData =>
-                        new Promise((resolve: any, reject: any) => {
-                            setTimeout(() => {
-                                setData([...data, newData]);
-
-                                resolve();
-                            }, 1000)
-                        }),
-                    onRowUpdate: (newData: any, oldData: any) =>
-                        new Promise((resolve: any, reject: any) => {
-                            setTimeout(() => {
-                                const dataUpdate = [...data];
-                                const index = oldData.tableData.id;
-                                dataUpdate[index] = newData;
-                                setData([...dataUpdate]);
-
-                                resolve();
-                            }, 1000)
-                        }),
-                    onRowDelete: oldData =>
-                        new Promise((resolve: any, reject: any) => {
-                            setTimeout(() => {
-                                const dataDelete = [...data];
-                                const index = oldData.tableData.id;
-                                dataDelete.splice(index, 1);
-                                setData([...dataDelete]);
-
-                                resolve()
-                            }, 1000)
-                        }),
-                }}
+                 
 
 
             />
