@@ -65,16 +65,31 @@ class Cases
         return $this;
     }
 
+    public function getConcernedClients($id): bool|array
+    {
+        $connexion = getConnexion();
+        $req = "SELECT client_id, client_first_name, client_last_name, client_adress, client_birthday, client_createdAt
+                FROM av_client, av_case, av_link_case_client
+                WHERE av_link_case_client.link_id_case =".$id ."
+                AND av_link_case_client.link_id_client = av_client.client_id
+                AND av_link_case_client.link_id_case = av_case.case_id";
+        $stmt = $connexion->prepare($req);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 
     public function getCases(): bool|array
     {
         $connexion = getConnexion();
-        $req = "SELECT * FROM av_case c, av_link_case_client lcc
+        $req = "SELECT case_id, code, case_description, case_createdAt, case_status, case_end_date
+                FROM av_case c, av_link_case_client lcc
                 WHERE c.case_id = lcc.link_id_case";
         $stmt = $connexion->prepare($req);
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         for ($i = 0; $i < count($result); $i++) {
+            $result[$i]['concernedClient'] = $this->getConcernedClients($result[$i]['case_id']);
             $result[$i]['event'] = $this->getEvents($result[$i]['case_id']);
         }
         return $result;
@@ -82,7 +97,8 @@ class Cases
     public function getEvents($id): bool|array
     {
         $connexion = getConnexion();
-        $req = "SELECT event_id, event_description, event_date, event_duration FROM av_event e, av_case c
+        $req = "SELECT event_id, event_description, event_date, event_duration 
+                FROM av_event e, av_case c
                 WHERE c.case_id = e.event_id_case
                 AND e.event_id_case =" . $id;
         $stmt = $connexion->prepare($req);
@@ -100,6 +116,7 @@ class Cases
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         for ($i = 0; $i < count($result); $i++) {
+            $result[$i]['concernedClient'] = $this->getConcernedClients($result[$i]['case_id']);
             $result[$i]['event'] = $this->getEvents($result[$i]['case_id']);
         }
 

@@ -145,6 +145,28 @@ class Client
 
         return $result;
     }
+//
+//    public function updateClient($_POST): bool
+//    {
+//        $connexion = getConnexion();
+//        $req = "UPDATE av_client SET client_firstname = :firstName, client_lastname = :lastName, client_address = :address, client_birthdate = :birthDate WHERE client_id = :id";
+//        $stmt = $connexion->prepare($req);
+//        $stmt->bindParam(':firstName', $_POST['firstName']);
+//        $stmt->bindParam(':lastName', $_POST['lastName']);
+//        $stmt->bindParam(':address', $_POST['address']);
+//        $stmt->bindParam(':birthDate', $_POST['birthDate']);
+//        $stmt->bindParam(':id', $_POST['id']);
+//        return $stmt->execute();
+//    }
+//
+//    function deleteClient($id)
+//    {
+//        $connexion = getConnexion();
+//        $req = "DELETE FROM av_client WHERE client_id = :id";
+//        $stmt = $connexion->prepare($req);
+//        $stmt->bindParam(':id', $id);
+//        return $stmt->execute();
+//    }
 
 //    public function addClient($_POST)
 //    {
@@ -158,4 +180,5 @@ class Client
 //        $stmt->bindParam(':birthDate', $_POST['birthDate']);
 //        $stmt->execute();}
 //}
+
 }

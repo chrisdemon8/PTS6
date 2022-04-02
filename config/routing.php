@@ -7,7 +7,6 @@ use App\Controller\Client\ReadClients;
 use App\Controller\Cases\ReadCases;
 use App\Controller\Cases\ReadCase;
 
-
 return [
 
     //API GET
