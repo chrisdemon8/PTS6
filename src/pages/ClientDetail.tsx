@@ -22,11 +22,11 @@ const ClientDetailPage = () => {
 
     async function fetchData() {
       const request = await axios.get("http://pts6.local/api/client/" + id);
-  
-      
+
+
 
       setDataClient(request.data);
- 
+
 
       return request;
     }
@@ -53,10 +53,11 @@ const ClientDetailPage = () => {
   }
 
   const handleSubmit = () => {
-    alert("modification d'un client"); 
+    alert("modification d'un client");
   }
 
-  
+
+
   return (
     <>
       <BreadcrumbsComponent customLabel={dataClient[0]?.client_first_name + " " + dataClient[0]?.client_last_name}></BreadcrumbsComponent>
@@ -85,16 +86,19 @@ const ClientDetailPage = () => {
         </div>
         <div className={styles.folderInProgress}>
           <h3>Dossier associés</h3> 
+          <ul>
+            {dataClient[0]?.cases.map((element: any) => <li>{ "Affaire n° " +element.code + "  |  "  } {element.case_status === 0 ? "En cours" : "Terminée"}</li>)} 
+          </ul>
         </div>
       </div>
 
       <ModalComponent isOpen={isOpen} handleClose={handleDialogClose} title='Modification du client'>
 
-        <div style={{ display:"flex", justifyContent:"center", flexDirection:"column", alignItems:"center" }}>
+        <div style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
 
           <h1>Formulaire pour modifier le client</h1>
- 
-          <form onSubmit={handleSubmit} style={{ display:"flex", justifyContent:"center", flexDirection:"column", alignItems:"center" }}>
+
+          <form onSubmit={handleSubmit} style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
             <TextField
               style={{ width: "250px", margin: "5px" }}
               type="text"
@@ -125,8 +129,8 @@ const ClientDetailPage = () => {
               label="Date de naissance"
               variant="outlined"
               required
-            /> 
-            <br /> 
+            />
+            <br />
             <br />
             <Button type="submit" style={{ width: "250px", margin: "5px" }} variant="contained" color="primary">
               save
