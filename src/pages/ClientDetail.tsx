@@ -87,7 +87,7 @@ const ClientDetailPage = () => {
         <div className={styles.folderInProgress}>
           <h3>Dossier associés</h3> 
           <ul>
-            {dataClient[0]?.cases.map((element: any) => <li>{ "Affaire n° " +element.code + "  |  "  } {element.case_status === 0 ? "En cours" : "Terminée"}</li>)} 
+            {dataClient[0]?.cases.map((element: any) => <li>{ "Affaire n° " +element.code + "  |  "  } {element.case_status == 0 ? "En cours" : "Terminée"}</li>)} 
           </ul>
         </div>
       </div>
