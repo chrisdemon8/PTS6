@@ -154,10 +154,10 @@ class Client
                 values(null, :client_first_name, :client_last_name, :client_adress, :client_birthday, :client_createdAt)";
                 $stmt = $connexion->prepare($sql);
                 $date = date('Y-m-d');
-                $stmt->bindParam(':client_first_name', $client->firstname);
-                $stmt->bindParam(':client_last_name', $client->lastname);
-                $stmt->bindParam(':client_adress', $client->address);
-                $stmt->bindParam(':client_birthday', $date);
+                $stmt->bindParam(':client_first_name', $client->client_first_name);
+                $stmt->bindParam(':client_last_name', $client->client_last_name);
+                $stmt->bindParam(':client_adress', $client->client_adress);
+                $stmt->bindParam(':client_birthday', $client->client_birthday);
                 $stmt->bindParam(':client_createdAt', $date);
                 if($stmt->execute()) {
                     $data = ['status' => 1, 'message' => "Record successfully created"];

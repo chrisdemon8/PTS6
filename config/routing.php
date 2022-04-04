@@ -21,24 +21,24 @@ use App\Controller\Event\NewEventCase;
 
 return [
 
-    //API GET
+    //API READ
     new Route('GET', '/api/client/{id}', ReadClient::class),
     new Route('GET', '/api/clients', ReadClients::class),
     new Route('GET', '/api/cases', ReadCases::class),
     new Route('GET', '/api/case/{id}', ReadCase::class),
 
-    //API POST
+    //API ADD
     new Route('POST', '/api/clients/save', NewClient::class),
     new Route('POST', '/api/case/{id}/client/save', NewClientCase::class),
     new Route('POST', '/api/case/{id}/event/save', NewEventCase::class),
     new Route('POST', '/api/cases/save', NewCase::class),
 
-    //API PUT
-    new Route('PUT', '/api/client/{id}/update', UpdateClient::class),
-    new Route('PUT', '/api/case/{id}/update', UpdateCase::class),
+    //API UPDATE
+    new Route('POST', '/api/client/{id}/update', UpdateClient::class),
+    new Route('POST', '/api/case/{id}/update', UpdateCase::class),
 
     //API DELETE
-    new Route('DELETE', '/api/client/{id}/delete', DeleteClient::class),
-    new Route('DELETE', '/api/case/{id}/delete', DeleteCase::class),
+    new Route('POST', '/api/client/{id}/delete', DeleteClient::class),
+    new Route('POST', '/api/case/{id}/delete', DeleteCase::class),
 
 ];

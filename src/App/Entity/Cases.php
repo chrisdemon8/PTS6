@@ -20,6 +20,7 @@ class Cases
     {
         $this->caseCreatedAt = new \DateTime();
         $this->caseEndDate = new \DateTime();
+
     }
 
     public function getCaseDescription(): string
@@ -65,6 +66,7 @@ class Cases
         $this->caseEndDate = $caseEndDate;
         return $this;
     }
+
 
     public function getConcernedClients($id): bool|array
     {
