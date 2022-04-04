@@ -2,7 +2,7 @@ import { Link } from '@material-ui/core';
 import { Button, TextField } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import BreadcrumbsComponent from '../components/breadcrumbs/Breadcrumbs';
 import ModalComponent from '../components/modal/Modal';
 import styles from './css/clientdetail.module.css'; // Import css modules stylesheet as styles
@@ -12,18 +12,21 @@ const ClientDetailPage = () => {
 
   let { id } = useParams();
 
+  const navigate = useNavigate();
+
+  
   const [isOpen, setIsOpen] = useState(false);
 
   const [isOpenDelete, setIsOpenDelete] = useState(false);
 
   const [dataClient, setDataClient]: any = useState([]);
 
+  const [inputs, setInputs] = useState([]);
+
   useEffect(() => {
 
     async function fetchData() {
       const request = await axios.get("http://pts6.local/api/client/" + id);
-
-
 
       setDataClient(request.data);
 
@@ -35,7 +38,7 @@ const ClientDetailPage = () => {
 
   }, []);
 
-
+ 
   const handleDialogOpen = () => {
     setIsOpen(true);
   }
@@ -53,7 +56,21 @@ const ClientDetailPage = () => {
   }
 
   const handleSubmit = () => {
+  
+    /*
+      axios.put(`http://pts6/api/cient/${id}/edit`, inputs).then(function(response){
+          console.log(response.data);
+          navigate('/');
+      });*/
+
+
     alert("modification d'un client");
+  }
+
+  const handleDelete = () => {
+    axios.delete(`http://pts6.local/api/client/${id}/delete`).then(function(response){
+        console.log(response.data);
+    });
   }
 
 
@@ -144,7 +161,7 @@ const ClientDetailPage = () => {
       <ModalComponent isOpen={isOpenDelete} handleClose={handleDialogDeleteClose} title="Suppression d'un client">
         <>
           <h2>Etes-vous sur de vouloir supprimer le client { } nom du client ?</h2>
-          <Button href="/clients" variant="contained" color="error">
+          <Button onClick={handleDelete} variant="contained" color="error">
             Supprimer
           </Button>
         </>
