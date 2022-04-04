@@ -1,11 +1,15 @@
 <?php
+
 use Framework\Routing\Route;
 
 //API
 use App\Controller\Client\ReadClient;
 use App\Controller\Client\ReadClients;
+use App\Controller\Client\NewClient;
 use App\Controller\Cases\ReadCases;
 use App\Controller\Cases\ReadCase;
+use App\Controller\Event\NewEvent;
+
 
 return [
 
@@ -15,11 +19,11 @@ return [
     new Route('GET', '/api/cases', ReadCases::class),
     new Route('GET', '/api/case/{id}', ReadCase::class),
 
-//    //API POST
-//    new Route('POST', '/api/clients', NewClient::class),
+    //API POST
+    new Route('POST', '/api/clients/save', NewClient::class),
 //    new Route('POST', '/api/cases', NewCase::class),
-//    new Route('POST', '/api/events', NewEvent::class),
-//
+    new Route('POST', '/api/events', NewEvent::class),
+
 //    //API PUT
 //    new Route('PUT', '/api/client/{id}', UpdateClient::class),
 //    new Route('PUT', '/api/case/{id}', UpdateCase::class),

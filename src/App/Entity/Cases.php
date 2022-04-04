@@ -11,6 +11,7 @@ class Cases
 {
     protected string $caseDescription;
     protected \DateTime $caseCreatedAt;
+    protected int $code;
     protected string $caseStatus;
     protected \DateTime $caseEndDate;
 
@@ -121,6 +122,33 @@ class Cases
         }
 
         return $result;
+    }
+
+
+    public function addCase()
+    {
+        $connexion = getConnexion();
+        $method = $_SERVER['REQUEST_METHOD'];
+        switch ($method) {
+            case 'POST':
+                $case = json_decode(file_get_contents('php://input'));
+                $sql = "INSERT INTO av_case(case_id, code, case_description, case_createdAt, case_status, case_end_date)
+                        VALUES (NULL, :code, :case_description, :case_createdAt, :case_status, :case_end_date)";
+                $stmt = $connexion->prepare($sql);
+                $date = date('Y-m-d');
+                $stmt->bindParam(':code', $case->code);
+                $stmt->bindParam(':case_description', $case->caseDescription);
+                $stmt->bindParam(':case_createdAt', $date);
+                $stmt->bindParam(':case_status', $case->caseStatus);
+                $stmt->bindParam(':case_end_date', $case->caseEndDate);
+                if($stmt->execute()) {
+                    $data = ['status' => 1, 'message' => "Record successfully created"];
+                } else {
+                    $data = ['status' => 0, 'message' => "Failed to create record."];
+                }
+                echo json_encode($data);
+                break;
+        }
     }
 
 
