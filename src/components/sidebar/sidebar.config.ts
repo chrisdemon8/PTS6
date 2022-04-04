@@ -22,7 +22,7 @@ export const sideMenu = [
         label: 'Dossiers',
         Icon: FolderIcon,
         to: '/dossiers',
-        children: [
+        /*children: [
             {
                 label: 'En cours',
                 Icon: LoopIcon,
@@ -33,6 +33,6 @@ export const sideMenu = [
                 Icon: CheckCircleOutlineIcon,
                 to: 'cloturees', 
             },
-        ],
+        ],*/
     },
 ];

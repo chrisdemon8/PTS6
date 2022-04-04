@@ -1,7 +1,6 @@
 import React, { forwardRef, useState } from "react";
-import MaterialTable, { Column, Icons } from "@material-table/core";
-// @ts-ignore
-import { v4 as uuidv4 } from 'uuid';
+import MaterialTable, { Icons } from "@material-table/core";
+// @ts-ignore 
 import {
     AddBox,
     ArrowDownward,
@@ -18,8 +17,8 @@ import {
     SaveAlt,
     Search,
     ViewColumn
-} from "@material-ui/icons";
-import { Container } from "@material-ui/core";
+} from "@mui/icons-material";
+import Container from '@mui/material/Container'; 
 import { Client, RowType } from "../../entity/type";
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -52,7 +51,7 @@ const tableIcons: Icons = {
 type Props = {
     randData: Client[];
 };
- 
+
 
 
 const localization = {
@@ -63,20 +62,20 @@ const options = {
     paging: true,
     pageSize: 10,
     emptyRowsWhenPaging: false,
-    pageSizeOptions: [10, 20, 50], 
+    pageSizeOptions: [10, 20, 50],
 };
 
 export const Table = ({ columns, dataFrom, nameId }: any) => {
-  
+
     const navigate = useNavigate();
 
     const [data, setData] = useState(dataFrom);
- 
+
 
     const location = useLocation();
 
     const pathnames = location.pathname.split('/').filter((x) => x);
- 
+
     return (
         <Container>
             <MaterialTable
@@ -84,9 +83,9 @@ export const Table = ({ columns, dataFrom, nameId }: any) => {
                 data={dataFrom}
                 icons={tableIcons}
                 options={options}
-                onRowClick={(event, rowData) => { navigate("/"+ pathnames[0] +"/" + rowData[nameId]) }}
+                onRowClick={(event, rowData) => { navigate("/" + pathnames[0] + "/" + rowData[nameId]) }}
                 localization={{ body: { editRow: { deleteText: 'Êtes-vous sûr de supprimer cette ligne ?' }, deleteTooltip: "Supprimer" } }}
-                 
+
 
 
             />

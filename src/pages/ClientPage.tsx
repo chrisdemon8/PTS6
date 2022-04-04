@@ -1,32 +1,26 @@
-import { Button } from '@material-ui/core';
 import { MobileDatePicker } from '@mui/lab';
 import axios from 'axios';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import TextField from '@mui/material/TextField';
+import { Button, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import ModalComponent from '../components/modal/Modal';
 import { Table } from '../components/table/Table';
-import { data } from "../utils";
-
+import styles from './css/clientdetail.module.css'; // I
 const ClientPage = () => {
 
   const [dataClients, setDataClients]: any = useState([]);
 
   const [isOpen, setIsOpen] = useState(false);
 
-
   const [inputValues, setInputValues] = useState({});
 
-  const handleOnChange = (event: { target: { name: string; value: string; }; }) => {
+  const handleOnChange = (event: { target: { name: string; value: any; }; }) => {
 
     const { name, value } = event.target;
 
     setInputValues({ ...inputValues, [name]: value });
-
   };
-
-
 
   const handleDialogOpen = () => {
     setIsOpen(true);
@@ -35,7 +29,6 @@ const ClientPage = () => {
   const handleDialogClose = () => {
     setIsOpen(false);
   }
-
 
   const [value, setValue] = React.useState<Date | null>(new Date());
 
@@ -78,7 +71,6 @@ const ClientPage = () => {
     async function fetchData() {
       const request = await axios.get("http://pts6.local/api/clients");
 
-
       setDataClients(request.data);
 
       return request;
@@ -101,21 +93,26 @@ const ClientPage = () => {
 
   return (
     <>
-      ClientPage
-      <Button onClick={handleDialogOpen}>Ajouter un client</Button>
-      <Table columns={[
-        { title: "Prénom", field: "client_first_name" },
-        { title: "Nom de famille", field: "client_last_name" }
-      ]} dataFrom={dataClients}
-        nameId="client_id"
-      />
+
+
+      <div className={styles.content}>
+        <h1>Listes des clients</h1>
+        <Button onClick={handleDialogOpen}>Ajouter un client</Button>
+        <Table columns={[
+          { title: "Prénom", field: "client_first_name" },
+          { title: "Nom de famille", field: "client_last_name" }
+        ]} dataFrom={dataClients}
+          nameId="client_id"
+        />
+
+      </div>
 
 
 
       <ModalComponent isOpen={isOpen} handleClose={handleDialogClose} title="Ajout d'un évènement">
         <div style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
 
-          <h1>Formulaire pour ajouter un client</h1>
+          <h2>Formulaire pour ajouter un client</h2>
 
           <form style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
             <TextField
@@ -153,7 +150,7 @@ const ClientPage = () => {
                 label="For mobile"
                 value={value}
                 onChange={(newValue) => {
-                  setValue(newValue);
+                  setInputValues({ ...inputValues, "date": newValue });
                 }}
                 renderInput={(params) => <TextField {...params} />}
               />
