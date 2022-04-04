@@ -187,10 +187,10 @@ class Client
             $client = json_decode(file_get_contents('php://input'));
             $sql = "UPDATE av_client SET client_first_name = :client_first_name, client_last_name = :client_last_name, client_adress = :client_adress, client_birthday = :client_birthday WHERE client_id = :id";
             $stmt = $connexion->prepare($sql);
-            $stmt->bindParam(':client_first_name', $client->firstname);
-            $stmt->bindParam(':client_last_name', $client->lastname);
-            $stmt->bindParam(':client_adress', $client->address);
-            $stmt->bindParam(':client_birthday', $client->birthday);
+            $stmt->bindParam(':client_first_name', $client->client_first_name);
+            $stmt->bindParam(':client_last_name', $client->client_last_name);
+            $stmt->bindParam(':client_adress', $client->client_adress);
+            $stmt->bindParam(':client_birthday', $client->client_birthday);
             $stmt->bindParam(':id', $id);
             if($stmt->execute()) {
                 $response = ['status' => 1, 'message' => 'Record updated successfully.'];

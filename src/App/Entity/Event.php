@@ -77,9 +77,9 @@ class Event
                 $sql = "INSERT INTO av_event(event_id, event_description, event_date, event_duration, event_id_case)
                 values(null, :event_description, :event_date, :event_duration, :event_id_case)";
                 $stmt = $connexion->prepare($sql);
-                $stmt->bindParam(':event_description', $event->eventDescription);
-                $stmt->bindParam(':event_date', $event->eventDate);
-                $stmt->bindParam(':event_duration', $event->eventDuration);
+                $stmt->bindParam(':event_description', $event->event_description);
+                $stmt->bindParam(':event_date', $event->event_date);
+                $stmt->bindParam(':event_duration', $event->event_duration);
                 $stmt->bindParam(':event_id_case', $id);
                 if($stmt->execute()) {
                     $data = ['status' => 1, 'message' => "Record successfully created"];
