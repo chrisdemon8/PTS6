@@ -118,7 +118,7 @@ const ClientPage = () => {
             <TextField
               style={{ width: "250px", margin: "5px" }}
               type="text"
-              name="firstname"
+              name="client_first_name"
               label="Firstname"
               variant="outlined"
               onChange={handleOnChange}
@@ -128,7 +128,7 @@ const ClientPage = () => {
             <TextField
               style={{ width: "250px", margin: "5px" }}
               type="text"
-              name="lastname"
+              name="client_last_name"
               label="Lastname"
               variant="outlined"
               onChange={handleOnChange}
@@ -139,7 +139,7 @@ const ClientPage = () => {
               style={{ width: "250px", margin: "5px" }}
               type="text"
               label="Adresse"
-              name="address"
+              name="client_adress"
               variant="outlined"
               onChange={handleOnChange}
               required
@@ -150,7 +150,7 @@ const ClientPage = () => {
                 label="For mobile"
                 value={value}
                 onChange={(newValue) => {
-                  setInputValues({ ...inputValues, "date": newValue });
+                  setInputValues({ ...inputValues, "client_birthday": newValue });
                 }}
                 renderInput={(params) => <TextField {...params} />}
               />

@@ -43,12 +43,14 @@ const FolderPage = () => {
 
     async function fetchData() {
       const request = await axios.get("http://pts6.local/api/cases");
-
-
+ 
+      console.log(request.data)
 
       request.data.forEach((element: any) => element.concernedClientLabel = "");
 
       request.data.forEach((element: any) => element.concernedClientLabel += element.concernedClient.map((element: any) => (element.client_first_name + " " + element.client_last_name)));
+
+
 
 
       setDataCases(request.data);
@@ -59,9 +61,9 @@ const FolderPage = () => {
     fetchData();
 
   }, []);
-
+ 
   const handleSubmit = () => {
-    console.log(inputValues)
+    
 
     fetch("http://pts6.local/api/cases/save", {
       method: 'POST',
@@ -110,7 +112,7 @@ const FolderPage = () => {
             <TextField
               style={{ width: "250px", margin: "5px" }}
               type="text"
-              name="description"
+              name="case_description"
               label="Description"
               variant="outlined"
               onChange={handleOnChange}

@@ -42,8 +42,6 @@ const ClientDetailPage = () => {
 
       setDataClient(request.data[0]);
       setInputValues(request.data[0]);
-      console.log(request.data[0].client_birthday)
-
 
 
       var date = new Date(Date.parse(request.data[0].client_birthday));
@@ -75,7 +73,7 @@ const ClientDetailPage = () => {
   const handleSubmit = () => {
     console.log(inputValues, value)
 
-    fetch("http://pts6.local/api/client/edit", {
+    fetch(`http://pts6.local/api/client/${id}/update`, {
       method: 'POST',
       headers: {
         "Content-Type": "application/json"
@@ -91,13 +89,26 @@ const ClientDetailPage = () => {
       });
   }
 
-  const handleDelete = () => {
-    axios.delete(`http://pts6.local/api/client/${id}/delete`).then(function (response) {
-      console.log(response.data);
-    });
+  const handleDelete = () => { 
+    fetch(`http://pts6.local/api/client/${id}/delete`, {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(inputValues),
+      mode: 'no-cors',
+      cache: 'default'
+    }).then(function (response) {
+      console.log("YES");
+    })
+      .catch(function (error) {
+        console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
+      });
   }
 
 
+
+  console.log(inputValues)
 
   return (
     <>
@@ -108,7 +119,7 @@ const ClientDetailPage = () => {
             <img className={styles.imageclient} src="https://cdn-icons-png.flaticon.com/512/1250/1250689.png" alt='image client' ></img>
             <div className={styles.labelclient}>
               <p>Client ID : {id}</p>
-              <p>Client depuis le : { (new Date(Date.parse(dataClient?.client_createdAt))).toLocaleString([], { day: 'numeric', month: 'numeric', year: 'numeric' }) }</p>
+              <p>Client depuis le : {(new Date(Date.parse(dataClient?.client_createdAt))).toLocaleString([], { day: 'numeric', month: 'numeric', year: 'numeric' })}</p>
             </div>
           </div>
           <div className={styles.groupbutton}>
@@ -183,7 +194,7 @@ const ClientDetailPage = () => {
                 label="Date d'anniversaire"
                 value={value}
                 onChange={(newValue) => {
-                  setInputValues({ ...inputValues, "date": newValue });
+                  setInputValues({ ...inputValues, "client_birthday": newValue });
                   setValue(newValue);
                 }}
                 renderInput={(params) => <TextField {...params} />}
