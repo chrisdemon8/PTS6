@@ -176,12 +176,11 @@ class Client
         switch ($method) {
             case 'POST':
                 $client = json_decode(file_get_contents('php://input'));
-                var_dump($client);
                 $sql = "INSERT INTO av_client(client_id, client_first_name, client_last_name, client_adress, client_birthday, client_createdAt)
                 values(null, :client_first_name, :client_last_name, :client_adress, :client_birthday, :client_createdAt)";
                 $stmt = $connexion->prepare($sql);
                 $date = date('Y-m-d');
-                $stmt->bindParam(':client_first_name', $client->firstName);
+                $stmt->bindParam(':client_first_name', $client->client_first_name);
                 $stmt->bindParam(':client_last_name', $client->lastName);
                 $stmt->bindParam(':client_adress', $client->address);
                 $stmt->bindParam(':client_birthday', $client->birthDate);
