@@ -1,6 +1,6 @@
 <?php
 
-use App\Controller\Cases\NewClientCase;
+use App\Controller\Client\NewClientCase;
 use Framework\Routing\Route;
 
 //API
