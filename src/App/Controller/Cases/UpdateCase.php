@@ -4,13 +4,14 @@ namespace App\Controller\Cases;
 use App\Entity\Cases;
 use Framework\Controller\AbstractController;
 
-class NewCase extends AbstractController
+class UpdateCase extends AbstractController
 {
 
-    public function __invoke(): string
+    public function __invoke($id): string
     {
+
         $case = new Cases();
-        $case = $case->addCase();
+        $case = $case->updateCase($id);
         return $this->buildResponse($case);
     }
 }

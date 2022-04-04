@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Entity;
-use JetBrains\PhpStorm\ArrayShape;
 use PDO;
 require_once __DIR__ . '../../Controller/Connexion/Connexion.php';
 
@@ -146,44 +145,19 @@ class Client
 
         return $result;
     }
-//
-//    public function updateClient($_POST): bool
-//    {
-//        $connexion = getConnexion();
-//        $req = "UPDATE av_client SET client_firstname = :firstName, client_lastname = :lastName, client_address = :address, client_birthdate = :birthDate WHERE client_id = :id";
-//        $stmt = $connexion->prepare($req);
-//        $stmt->bindParam(':firstName', $_POST['firstName']);
-//        $stmt->bindParam(':lastName', $_POST['lastName']);
-//        $stmt->bindParam(':address', $_POST['address']);
-//        $stmt->bindParam(':birthDate', $_POST['birthDate']);
-//        $stmt->bindParam(':id', $_POST['id']);
-//        return $stmt->execute();
-//    }
-//
-//    function deleteClient($id)
-//    {
-//        $connexion = getConnexion();
-//        $req = "DELETE FROM av_client WHERE client_id = :id";
-//        $stmt = $connexion->prepare($req);
-//        $stmt->bindParam(':id', $id);
-//        return $stmt->execute();
-//    }
 
     public function addClient()
     {
         $connexion = getConnexion();
-        $method = $_SERVER['REQUEST_METHOD'];
-        switch ($method) {
-            case 'POST':
                 $client = json_decode(file_get_contents('php://input'));
                 $sql = "INSERT INTO av_client(client_id, client_first_name, client_last_name, client_adress, client_birthday, client_createdAt)
                 values(null, :client_first_name, :client_last_name, :client_adress, :client_birthday, :client_createdAt)";
                 $stmt = $connexion->prepare($sql);
                 $date = date('Y-m-d');
-                $stmt->bindParam(':client_first_name', $client->client_first_name);
-                $stmt->bindParam(':client_last_name', $client->lastName);
+                $stmt->bindParam(':client_first_name', $client->firstname);
+                $stmt->bindParam(':client_last_name', $client->lastname);
                 $stmt->bindParam(':client_adress', $client->address);
-                $stmt->bindParam(':client_birthday', $client->birthDate);
+                $stmt->bindParam(':client_birthday', $date);
                 $stmt->bindParam(':client_createdAt', $date);
                 if($stmt->execute()) {
                     $data = ['status' => 1, 'message' => "Record successfully created"];
@@ -191,8 +165,39 @@ class Client
                     $data = ['status' => 0, 'message' => "Failed to create record."];
                 }
                 echo json_encode($data);
-                break;
         }
-    }
+
+        public function deleteClient($id)
+        {
+            $connexion = getConnexion();
+            $req = "DELETE FROM av_client WHERE client_id = :id";
+            $stmt = $connexion->prepare($req);
+            $stmt->bindParam(':id', $id);
+            if($stmt->execute()) {
+                $response = ['status' => 1, 'message' => 'Record deleted successfully.'];
+            } else {
+                $response = ['status' => 0, 'message' => 'Failed to delete record.'];
+            }
+            echo json_encode($response);
+        }
+
+        public function updateClient($id)
+        {
+            $connexion = getConnexion();
+            $client = json_decode(file_get_contents('php://input'));
+            $sql = "UPDATE av_client SET client_first_name = :client_first_name, client_last_name = :client_last_name, client_adress = :client_adress, client_birthday = :client_birthday WHERE client_id = :id";
+            $stmt = $connexion->prepare($sql);
+            $stmt->bindParam(':client_first_name', $client->firstname);
+            $stmt->bindParam(':client_last_name', $client->lastname);
+            $stmt->bindParam(':client_adress', $client->address);
+            $stmt->bindParam(':client_birthday', $client->birthday);
+            $stmt->bindParam(':id', $id);
+            if($stmt->execute()) {
+                $response = ['status' => 1, 'message' => 'Record updated successfully.'];
+            } else {
+                $response = ['status' => 0, 'message' => 'Failed to update record.'];
+            }
+            echo json_encode($response);
+        }
 
 }

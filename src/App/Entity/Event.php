@@ -70,12 +70,9 @@ class Event
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function addEvent()
+    public function addCaseEvent($id)
     {
         $connexion = getConnexion();
-        $method = $_SERVER['REQUEST_METHOD'];
-        switch ($method) {
-            case 'POST':
                 $event = json_decode(file_get_contents('php://input'));
                 $sql = "INSERT INTO av_event(event_id, event_description, event_date, event_duration, event_id_case)
                 values(null, :event_description, :event_date, :event_duration, :event_id_case)";
@@ -83,15 +80,13 @@ class Event
                 $stmt->bindParam(':event_description', $event->eventDescription);
                 $stmt->bindParam(':event_date', $event->eventDate);
                 $stmt->bindParam(':event_duration', $event->eventDuration);
-                $stmt->bindParam(':event_id_case', $event->eventCaseId);
+                $stmt->bindParam(':event_id_case', $id);
                 if($stmt->execute()) {
                     $data = ['status' => 1, 'message' => "Record successfully created"];
                 } else {
                     $data = ['status' => 0, 'message' => "Failed to create record."];
                 }
                 echo json_encode($data);
-                break;
-        }
     }
 
 }

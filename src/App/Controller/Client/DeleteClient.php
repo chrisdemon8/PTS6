@@ -4,13 +4,14 @@ namespace App\Controller\Client;
 use App\Entity\Client;
 use Framework\Controller\AbstractController;
 
-class NewClient extends AbstractController
+class DeleteClient extends AbstractController
 {
 
-    public function __invoke(): string
+    public function __invoke($id): string
     {
+
         $client = new Client();
-        $client = $client->addClient();
+        $client = $client->deleteClient($id);
         return $this->buildResponse($client);
     }
 }

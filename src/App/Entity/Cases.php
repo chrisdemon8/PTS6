@@ -128,29 +128,80 @@ class Cases
     public function addCase()
     {
         $connexion = getConnexion();
-        $method = $_SERVER['REQUEST_METHOD'];
-        switch ($method) {
-            case 'POST':
                 $case = json_decode(file_get_contents('php://input'));
-                $sql = "INSERT INTO av_case(case_id, code, case_description, case_createdAt, case_status, case_end_date)
-                        VALUES (NULL, :code, :case_description, :case_createdAt, :case_status, :case_end_date)";
+                $sql = "INSERT INTO av_case(case_id, code, case_description, case_createdAt, case_status)
+                        VALUES (NULL, :code, :case_description, :case_createdAt, :case_status)";
                 $stmt = $connexion->prepare($sql);
                 $date = date('Y-m-d');
-                $stmt->bindParam(':code', $case->code);
+                $status = 'En cours';
+                $lastInsertId = $connexion->lastInsertId('case_id');
+                $stmt->bindParam(':code',$lastInsertId);
                 $stmt->bindParam(':case_description', $case->caseDescription);
                 $stmt->bindParam(':case_createdAt', $date);
-                $stmt->bindParam(':case_status', $case->caseStatus);
-                $stmt->bindParam(':case_end_date', $case->caseEndDate);
+                $stmt->bindParam(':case_status', $status);
                 if($stmt->execute()) {
                     $data = ['status' => 1, 'message' => "Record successfully created"];
+
                 } else {
                     $data = ['status' => 0, 'message' => "Failed to create record."];
                 }
-                echo json_encode($data);
-                break;
-        }
+                return json_encode($data);
     }
 
+    public function updateCase($id)
+    {
+        $connexion = getConnexion();
+                $case = json_decode(file_get_contents('php://input'));
+                $sql = "UPDATE av_case SET code= :code, case_description =:case_description, case_status =:case_status, case_end_date =:case_end_date WHERE id = :id";
+                $stmt = $connexion->prepare($sql);
+                $stmt->bindParam(':id', $id);
+                $stmt->bindParam(':code', $case->code);
+                $stmt->bindParam(':case_description', $case->caseDescription);
+                $stmt->bindParam(':case_status', $case->status);
+                $stmt->bindParam(':case_end_date', $case->caseEndDate);
 
+                if ($stmt->execute()) {
+                    $response = ['status' => 1, 'message' => 'Record updated successfully.'];
+                } else {
+                    $response = ['status' => 0, 'message' => 'Failed to update record.'];
+                }
+                return json_encode($response);
+        }
+
+        public function deleteCase($id)
+        {
+            $connexion = getConnexion();
+            $sql = "DELETE FROM av_case WHERE id = :id";
+            $stmt = $connexion->prepare($sql);
+            $stmt->bindParam(':id', $id);
+            if ($stmt->execute()) {
+                $response = ['status' => 1, 'message' => 'Record deleted successfully.'];
+            } else {
+                $response = ['status' => 0, 'message' => 'Failed to delete record.'];
+            }
+            return json_encode($response);
+        }
+
+        public function addEventCase($id): bool|string
+        {
+            $connexion = getConnexion();
+            $case = json_decode(file_get_contents('php://input'));
+            $sql = "INSERT INTO av_case(case_id, code, case_description, case_createdAt, case_status, case_end_date)
+                        VALUES (NULL, :code, :case_description, :case_createdAt, :case_status, :case_end_date)";
+            $stmt = $connexion->prepare($sql);
+            $date = date('Y-m-d');
+            $stmt->bindParam(':code', $case->code);
+            $stmt->bindParam(':case_description', $case->caseDescription);
+            $stmt->bindParam(':case_createdAt', $date);
+            $stmt->bindParam(':case_status', $case->caseStatus);
+            $stmt->bindParam(':case_end_date', $case->caseEndDate);
+            if($stmt->execute()) {
+                $data = ['status' => 1, 'message' => "Record successfully created"];
+
+            } else {
+                $data = ['status' => 0, 'message' => "Failed to create record."];
+            }
+            return json_encode($data);
+        }
 
 }
