@@ -1,6 +1,5 @@
 <?php
 
-use App\Controller\Cases\NewClientCase;
 use Framework\Routing\Route;
 
 //API
@@ -8,6 +7,7 @@ use App\Controller\Client\ReadClient;
 use App\Controller\Client\ReadClients;
 use App\Controller\Client\NewClient;
 use App\Controller\Client\DeleteClient;
+use App\Controller\Client\NewClientCase;
 use App\Controller\Client\UpdateClient;
 
 use App\Controller\Cases\ReadCases;
@@ -17,7 +17,6 @@ use App\Controller\Cases\NewCase;
 use App\Controller\Cases\UpdateCase;
 
 use App\Controller\Event\NewEventCase;
-
 
 return [
 

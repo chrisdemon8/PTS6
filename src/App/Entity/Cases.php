@@ -135,7 +135,7 @@ class Cases
                         VALUES (NULL, :code, :case_description, :case_createdAt, :case_status)";
                 $stmt = $connexion->prepare($sql);
                 $date = date('Y-m-d');
-                $status = 'En cours';
+                $status = 0;
                 $lastInsertId = $connexion->lastInsertId('case_id');
                 $stmt->bindParam(':code',$lastInsertId);
                 $stmt->bindParam(':case_description', $case->case_description);
@@ -154,7 +154,7 @@ class Cases
     {
         $connexion = getConnexion();
                 $case = json_decode(file_get_contents('php://input'));
-                $sql = "UPDATE av_case SET case_description =:case_description, case_status =:case_status, case_end_date =:case_end_date WHERE id = :id";
+                $sql = "UPDATE av_case SET case_description =:case_description, case_status =:case_status, case_end_date =:case_end_date WHERE case_id = :id";
                 $stmt = $connexion->prepare($sql);
                 $stmt->bindParam(':id', $id);
                 $stmt->bindParam(':case_description', $case->case_escription);
@@ -172,7 +172,7 @@ class Cases
         public function deleteCase($id)
         {
             $connexion = getConnexion();
-            $sql = "DELETE FROM av_case WHERE id = :id";
+            $sql = "DELETE FROM av_case WHERE case_id = :id";
             $stmt = $connexion->prepare($sql);
             $stmt->bindParam(':id', $id);
             if ($stmt->execute()) {

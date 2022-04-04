@@ -38,7 +38,7 @@ class Link
     {
         $connexion = getConnexion();
         $client = json_decode(file_get_contents('php://input'));
-        $sql = "INSERT INTO av_link_case(link_id_client, link_id_case)
+        $sql = "INSERT INTO av_link_case_client(link_id_client, link_id_case)
                 values(:id_client, :id_case)";
         $stmt = $connexion->prepare($sql);
         $stmt->bindParam(':id_client', $client->link_id_client);
