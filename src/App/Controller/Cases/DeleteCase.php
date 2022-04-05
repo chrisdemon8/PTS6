@@ -9,6 +9,8 @@ class DeleteCase extends AbstractController
 
     public function __invoke($id): string
     {
+
+        var_dump($id); 
         $case = new Cases();
         $case = $case->deleteCase($id);
         return $this->buildResponse($case);
