@@ -51,4 +51,19 @@ class Link
         echo json_encode($data);
     }
 
+    public function deleteClientConcernedCase($id)
+    {
+        $connexion = getConnexion();
+        $req = "DELETE FROM av_link_case_client WHERE client_id = :client_id AND case_id = :case_id";
+        $stmt = $connexion->prepare($req);
+        $stmt->bindParam(':client_id', $id['client_id']);
+        $stmt->bindParam(':case_id', $id['case_id']);
+        if($stmt->execute()) {
+            $response = ['status' => 1, 'message' => 'Record deleted successfully.'];
+        } else {
+            $response = ['status' => 0, 'message' => 'Failed to delete record.'];
+        }
+        echo json_encode($response);
+    }
+
 }

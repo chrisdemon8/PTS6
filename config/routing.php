@@ -8,6 +8,7 @@ use App\Controller\Client\ReadClients;
 use App\Controller\Client\NewClient;
 use App\Controller\Client\DeleteClient;
 use App\Controller\Client\NewClientCase;
+use App\Controller\Client\DeleteClientCase;
 use App\Controller\Client\UpdateClient;
 
 use App\Controller\Cases\ReadCases;
@@ -39,5 +40,6 @@ return [
     //API DELETE
     new Route('POST', '/api/client/{id}/delete', DeleteClient::class),
     new Route('POST', '/api/case/{id}/delete', DeleteCase::class),
+    new Route('POST', '/api/case/{id_case}/client/{id_client}/delete', DeleteClientCase::class),
 
 ];
