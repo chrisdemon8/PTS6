@@ -106,9 +106,9 @@ const ClientDetailPage = () => {
             </div>
             <div className={styles.folderInProgress}>
               <FolderIcon color="secondary" sx={{ fontSize: 50 }} />
-              <h3>Dossiers associés</h3>
+              <h3>Affaires associées</h3>
               <ul>
-                {dataClient?.cases?.map((element: any) => <li key={element.code} className={styles.detailslabel}>{"Affaire n° " + element.code + "  |  "} {element.case_status == 0 ? "En cours" : "Terminée"}</li>)}
+                {dataClient?.cases?.map((element: any) => <li key={element.case_id} className={styles.detailslabel}>{"Affaire n° " + element.case_id + "  |  "} {element.case_status == 0 ? "En cours" : "Terminée"}</li>)}
               </ul>
             </div>
           </div>
@@ -182,7 +182,7 @@ const ClientDetailPage = () => {
 
       <ModalComponent isOpen={isOpenDelete} handleClose={handleDialogDeleteClose} title="Suppression d'un client">
         <>
-          <h2>Etes-vous sur de vouloir supprimer le client { } nom du client ?</h2>
+          <h2>Etes-vous sur de vouloir supprimer le client {dataClient?.client_first_name + " " + dataClient?.client_last_name} ?</h2>
           <Button onClick={handleDelete} variant="contained" color="error">
             Supprimer
           </Button>

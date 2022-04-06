@@ -6,6 +6,11 @@
 - SALICE Jean-Michaël 
 - PÉTRÉ Christophe
   
+# Prérequis pour faire fonctionner le projet 
+
+## Faire un virtualhost 
+- Virtualhost pour faire tourner le back-end ( > PHP 8) 
+- Nom du virtual host pour call l'api : pts6.local ( nom du virtual host changeable il faut modifier les fichiers src/components/request/callapiCase  et callapiClient)
 
 # Les différentes build
 

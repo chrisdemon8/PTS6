@@ -14,11 +14,11 @@ const HomePage = () => {
         <div className={styles.container}>
           <img className={styles.logo} src='../logo.png'></img>
           <div className={styles.title}>
-            <h1>Consultez et gérez vos clients et leurs dossiers en toute simplicité</h1>
+            <h1>Consultez et gérez vos clients et leurs affaires en toute simplicité</h1>
           </div>
           <div className={styles.buttons}>
             <div onClick={() => navigate("/clients")} className={styles.btnclient} ><img src="../btn_profile.png"></img><p>Clients</p></div>
-            <div onClick={() => navigate("/dossiers")} className={styles.btndossier} ><img src="../btn_folder.png"></img><p>Dossiers</p></div>
+            <div onClick={() => navigate("/dossiers")} className={styles.btndossier} ><img src="../btn_folder.png"></img><p>Affaires</p></div>
           </div>
 
 

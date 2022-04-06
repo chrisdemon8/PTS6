@@ -7,12 +7,15 @@ import BreadcrumbsComponent from '../components/breadcrumbs/Breadcrumbs';
 import ModalComponent from '../components/modal/Modal';
 import styles from './css/folderdetail.module.css'; // Import css modules stylesheet as styles
 import frLocale from 'date-fns/locale/fr';
-import { deleteCase, getCase, saveClientInCase, saveEventInCase, updateCase } from '../components/request/callapiCase';
+import { deleteCase, deleteClientInCase, getCase, saveClientInCase, saveEventInCase, updateCase } from '../components/request/callapiCase';
 import { getClientsName } from '../components/request/callapiClient';
 import { convertDateFR } from '../utils';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import EventIcon from '@mui/icons-material/Event';
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
+
 
 const FolderDetailPage = () => {
 
@@ -39,6 +42,8 @@ const FolderDetailPage = () => {
     }, []);
 
 
+    console.log(dataFolder);
+
     const handleOnChange = (event: { target: { name: string; value: any; }; }) => {
 
         const { name, value } = event.target;
@@ -53,7 +58,6 @@ const FolderDetailPage = () => {
         setInputValuesEvent({ ...inputValuesEvent, [name]: value });
     };
 
-    console.log(inputValues); 
     /* MODAL AREA */
 
     const handleDialogOpen = () => {
@@ -90,7 +94,7 @@ const FolderDetailPage = () => {
     }
 
     /* END MODAL AREA  */
- 
+
 
     const handleSubmit = () => {
         updateCase(id, inputValues);
@@ -109,6 +113,13 @@ const FolderDetailPage = () => {
     const handleDelete = () => {
         deleteCase(id);
     }
+
+
+    const handleDeleteClientInCase = (client_id: any) => {
+        deleteClientInCase(id, client_id);
+        getCase(id, setDataFolder, setInputValues, setState);
+    }
+
 
     const [clientSelect, setClientSelect] = React.useState("1");
 
@@ -130,26 +141,27 @@ const FolderDetailPage = () => {
         setInputValues({ ...inputValues, case_status: state });
     };
 
-    /*
-    let totalTime = 0;
-    totalTime += parseInt(dataFolder?.event?.map((element: any) => element.event_duration));
-*/
-
-
     return (
         <>
-            <BreadcrumbsComponent customLabel={"Dossier " + dataFolder?.code}></BreadcrumbsComponent>
+            <BreadcrumbsComponent customLabel={"Affaire " + dataFolder?.case_id}></BreadcrumbsComponent>
             <div className={styles.content}>
                 <div className={styles.header}>
                     <div className={styles.headermain}>
-                        <img className={styles.imageclient} src="../folder_icon.png" alt='image dossier' ></img>
+                        <img className={styles.imageclient} src="../folder_icon.png" alt='image affaire' ></img>
                         <div className={styles.labelclient}>
-                            <p className={styles.clientsince}>Dossier ID : {id} {dataFolder?.case_status == 0 ? "En cours" : "Terminée"}</p>
+                            <p className={styles.clientsince}>Affaire n° ID : {id} {dataFolder?.case_status == 0 ? "En cours" : "Terminée"}</p>
                             <p className={styles.clientsince}>Affaire ouverte depuis le : {convertDateFR(dataFolder?.case_createdAt)}</p>
+                            {
+                                dataFolder?.case_end_date != null ? <p className={styles.clientsince}>Affaire cloturée depuis le : {convertDateFR(dataFolder?.case_end_date)}</p> : ""
+                            }
                         </div>
                     </div>
                     <div className={styles.groupbutton}>
-                        <Button onClick={handleDialogOpen} className={styles.btnupdate} >Modifier</Button>
+
+                        {
+                            dataFolder?.case_end_date != null ? "" : <Button onClick={handleDialogOpen} className={styles.btnupdate} >Modifier</Button>
+                        }
+
                         <Button color='error' onClick={handleDialogDeleteOpen} className={styles.btndelete}>Supprimer</Button>
                     </div>
                 </div>
@@ -157,7 +169,7 @@ const FolderDetailPage = () => {
                 <div className={styles.line}></div>
 
                 <div className={styles.detailsclient}>
-                    <h1>Détails du dossier</h1>
+                    <h1>Détails de l'affaire</h1>
                     <div className={styles.container}>
 
                         <div className={styles.adresse}>
@@ -168,8 +180,26 @@ const FolderDetailPage = () => {
                         <div className={styles.birthday}>
                             <AccountBoxIcon color="success" sx={{ fontSize: 50 }} />
                             <h3>Clients concernés</h3>
-                            {dataFolder?.concernedClient?.map((element: any) => <p key={element.client_id}>{element.client_first_name + " " + element.client_last_name + "  "}</p>)}
-                            <Button onClick={handleDialogClientOpen}>Ajouter un client à l'affaire</Button>
+                            {dataFolder?.concernedClient?.map((element: any) =>
+
+                                <p key={element.client_id}>{element.client_first_name + " " + element.client_last_name + "  "}
+
+
+                                    {
+                                        dataFolder?.case_end_date != null ? "" :
+                                            <IconButton color='error' key={element.client_id} onClick={() => handleDeleteClientInCase(element.client_id)} aria-label="delete">
+                                                <DeleteIcon key={element.client_id} />
+                                            </IconButton>
+                                    }
+
+                                </p>
+
+                            )}
+
+                            {
+                                dataFolder?.case_end_date != null ? "" :
+                                    <Button onClick={handleDialogClientOpen}>Ajouter un client à l'affaire</Button>
+                            }
                         </div>
                         <div className={styles.folderInProgress}>
                             <EventIcon color="secondary" sx={{ fontSize: 50 }} />
@@ -179,17 +209,21 @@ const FolderDetailPage = () => {
                             </ul>
 
 
-                            <Button onClick={handleDialogEventOpen}>Ajouter un évenement</Button>
+
+                            {
+                                dataFolder?.case_end_date != null ? "" :
+                                    <Button onClick={handleDialogEventOpen}>Ajouter un évenement</Button>
+                            }
                         </div>
                     </div>
                 </div>
             </div>
 
-            <ModalComponent isOpen={isOpen} handleClose={handleDialogClose} title='Modification du client'>
+            <ModalComponent isOpen={isOpen} handleClose={handleDialogClose} title="Modification de l'affaire">
 
                 <div style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
 
-                    <h1>Formulaire pour modifier un dossier</h1>
+                    <h1>Formulaire pour modifier une affaire</h1>
 
                     <form onClick={handleSubmit} style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
                         <TextField
@@ -218,7 +252,7 @@ const FolderDetailPage = () => {
             <ModalComponent isOpen={isOpenEvent} handleClose={handleDialogEventClose} title="Ajout d'un évènement">
                 <div style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
 
-                    <h1>Formulaire pour ajouter un évènement au dossier</h1>
+                    <h1>Formulaire pour ajouter un évènement à l'affaire</h1>
 
                     <form onSubmit={handleSubmitEvent} style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
                         <TextField
@@ -298,7 +332,7 @@ const FolderDetailPage = () => {
 
             <ModalComponent isOpen={isOpenDelete} handleClose={handleDialogDeleteClose} title="Suppression d'un client">
                 <>
-                    <h2>Etes-vous sur de vouloir supprimer le dossier { } n° du dossier ?</h2>
+                    <h2>Etes-vous sur de vouloir supprimer l'affaire n° {id} ?</h2>
                     <Button onClick={handleDelete} variant="contained" color="error">
                         Supprimer
                     </Button>

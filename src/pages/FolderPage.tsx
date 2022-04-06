@@ -49,10 +49,10 @@ const FolderPage = () => {
 
   return (
     <>
-      FolderPage
-      <Button onClick={handleDialogOpen}>Ajouter un dossier</Button>
+      <h1>Listes des affaires</h1>
+      <Button onClick={handleDialogOpen}>Ajouter une affaire</Button>
       {<Table columns={[
-        { title: "Code", field: "code", filtering: false },
+        { title: "Code", field: "case_id", filtering: false },
         { title: "Statut", field: "statusLabel" },
         { title: "Clients", field: "concernedClientLabel", filtering: false },
       ]}
@@ -85,8 +85,6 @@ const FolderPage = () => {
         </div>
       </ModalComponent>
     </>
-
-
 
   )
 }

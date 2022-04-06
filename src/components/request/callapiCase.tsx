@@ -2,7 +2,7 @@ import axios from "axios";
 
 let BUILD_TYPE = process.env.REACT_APP_BUILD_TYPE;
 
-let prefixUrl = "http://10.0.2.2/"
+let prefixUrl = "http://pts6.local/"
 
 switch (BUILD_TYPE) {
     case "mobile":
@@ -121,6 +121,24 @@ export const saveClientInCase = (id: any, link_id_client: any) => {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({ link_id_client }),
+        mode: 'no-cors',
+        cache: 'default'
+    }).then(function (response) {
+        console.log(response);
+    }).catch(function (error) {
+        console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
+    });
+}
+
+
+export const deleteClientInCase = (id: any, client_id: any) => {
+
+    fetch(prefixUrl + `api/case/${id}/client/${client_id}/delete`, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({}),
         mode: 'no-cors',
         cache: 'default'
     }).then(function (response) {

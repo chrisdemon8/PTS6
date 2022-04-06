@@ -101,7 +101,7 @@
         text-align: center;
         border-radius: 10px;
         padding: 20px;
-        overflow-y: scroll;
+        overflow-y: auto;
     }
     .detailsclient .folderInProgress {
         display: flex;
