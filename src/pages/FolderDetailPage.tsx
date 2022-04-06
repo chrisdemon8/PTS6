@@ -1,13 +1,13 @@
 import { LocalizationProvider, MobileDatePicker } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { Button, FormControlLabel, MenuItem, Select, SelectChangeEvent, Switch, TextField } from '@mui/material';
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import BreadcrumbsComponent from '../components/breadcrumbs/Breadcrumbs';
 import ModalComponent from '../components/modal/Modal';
 import styles from './css/clientdetail.module.css'; // Import css modules stylesheet as styles
 import frLocale from 'date-fns/locale/fr';
+import { deleteCase, getCase, saveClientInCase, saveEventInCase, updateCase } from '../components/request/callapiCase';
 
 const FolderDetailPage = () => {
 
@@ -30,17 +30,7 @@ const FolderDetailPage = () => {
     const [dataFolder, setDataFolder]: any = useState([]);
 
     useEffect(() => {
-
-        async function fetchData() {
-            const request = await axios.get("http://pts6.local/api/case/" + id);
-            setDataFolder(request.data[0]);
-            setInputValues(request.data[0]);
-
-
-            return request;
-        }
-
-        fetchData();
+        getCase(id, setDataFolder, setInputValues);
     }, []);
 
 
@@ -57,9 +47,6 @@ const FolderDetailPage = () => {
 
         setInputValuesEvent({ ...inputValuesEvent, [name]: value });
     };
-
-
-    console.log(inputValuesEvent)
 
     /* MODAL AREA */
 
@@ -98,79 +85,26 @@ const FolderDetailPage = () => {
 
     /* END MODAL AREA  */
 
-
-
-    console.log(inputValues);
+    console.log(inputValues)
 
     const handleSubmit = () => {
-        fetch(`http://pts6.local/api/case/${id}/update`, {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(inputValues),
-            mode: 'no-cors',
-            cache: 'default'
-        }).then(function (response) {
-            console.log("YES");
-        })
-            .catch(function (error) {
-                console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
-            });
+        updateCase(id, inputValues);
     }
 
 
 
     const handleSubmitClient = () => {
-        fetch(`http://pts6.local/api/case/${id}/client/save`, {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ 'link_id_client': 2 }),
-            mode: 'no-cors',
-            cache: 'default'
-        }).then(function (response) {
-            console.log("YES");
-        })
-            .catch(function (error) {
-                console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
-            });
+
+        let link_id_client = 2; 
+        saveClientInCase(id, link_id_client);
     }
 
-    const handleSubmitEvent = () => {
-        fetch(`http://pts6.local/api/case/${id}/event/save`, {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(inputValuesEvent),
-            mode: 'no-cors',
-            cache: 'default'
-        }).then(function (response) {
-            console.log("YES");
-        })
-            .catch(function (error) {
-                console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
-            });
+    const handleSubmitEvent = () => { 
+        saveEventInCase(id,inputValuesEvent );  
     }
 
     const handleDelete = () => {
-
-        fetch(`http://pts6.local/api/case/${id}/delete`, {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(inputValues),
-            mode: 'no-cors',
-            cache: 'default'
-        }).then(function (response) {
-            console.log("YES");
-        })
-            .catch(function (error) {
-                console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
-            });
+        deleteCase(id);  
     }
 
 
@@ -225,7 +159,7 @@ const FolderDetailPage = () => {
 
                     <h1>Formulaire pour modifier un dossier</h1>
 
-                    <form onSubmit={handleSubmit} style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
+                    <form style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
                         <TextField
                             style={{ width: "250px", margin: "5px" }}
                             type="text"
@@ -241,7 +175,7 @@ const FolderDetailPage = () => {
                         <br />
                         <br />
                         <Button onClick={handleSubmit} style={{ width: "250px", margin: "5px" }} variant="contained" color="primary">
-                            save
+                            Sauvegarder
                         </Button>
                     </form>
 
@@ -323,7 +257,7 @@ const FolderDetailPage = () => {
                         </Select>
                         <br />
                         <br />
-                        <Button onClick={handleSubmitClient} style={{ width: "250px", margin: "5px" }} variant="contained" color="primary">
+                        <Button type='submit' style={{ width: "250px", margin: "5px" }} variant="contained" color="primary">
                             Ajouter
                         </Button>
                     </form>

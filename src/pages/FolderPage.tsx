@@ -1,11 +1,11 @@
 import { LocalizationProvider, MobileDatePicker } from '@mui/lab';
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import ModalComponent from '../components/modal/Modal';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { Button, MenuItem, TextField } from '@mui/material';
 import { Table } from '../components/table/Table';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { getCases, saveCase } from '../components/request/callapiCase';
 
 
 const FolderPage = () => {
@@ -39,56 +39,14 @@ const FolderPage = () => {
     setAge(event.target.value as string);
   };
 
-  useEffect(() => {
-
-    async function fetchData() {
-      const request = await axios.get("http://pts6.local/api/cases");
- 
-      console.log(request.data)
-
-      request.data.forEach((element: any) => element.concernedClientLabel = "");
-
-      request.data.forEach((element: any) => element.concernedClientLabel += element.concernedClient.map((element: any) => (element.client_first_name + " " + element.client_last_name)));
-
-
-
-
-      setDataCases(request.data);
-
-      return request;
-    }
-
-    fetchData();
-
+  useEffect(() => { 
+    getCases(setDataCases);
   }, []);
  
-  const handleSubmit = () => {
-    
-
-    fetch("http://pts6.local/api/cases/save", {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(inputValues),
-      mode: 'no-cors',
-      cache: 'default'
-    }).then(function (response) {
-      console.log("YES");
-    })
-      .catch(function (error) {
-        console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
-      });
-
-    /*axios.post('http://pts6.local/api/clients/save', inputValues, axiosConfig).then(function (response) {
-      console.log(response.data);
-    });
-    alert("modification d'un dossier");*/
+  const handleSubmit = () => { 
+    saveCase(inputValues); 
   }
-
-  console.log(dataCases);
-
-
+  
   return (
     <>
       FolderPage

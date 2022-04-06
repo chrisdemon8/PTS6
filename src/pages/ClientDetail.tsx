@@ -1,13 +1,13 @@
 import { LocalizationProvider, MobileDatePicker } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import { Button, TextField } from '@mui/material';
-import axios from 'axios';
+import { Button, TextField } from '@mui/material'; 
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import BreadcrumbsComponent from '../components/breadcrumbs/Breadcrumbs';
 import ModalComponent from '../components/modal/Modal';
 import styles from './css/clientdetail.module.css'; // Import css modules stylesheet as styles
 import frLocale from 'date-fns/locale/fr';
+import { deleteClient, getClient, updateClient } from '../components/request/callapiClient';
 
 const ClientDetailPage = () => {
 
@@ -35,22 +35,8 @@ const ClientDetailPage = () => {
     setInputValues({ ...inputValues, [name]: value });
   };
 
-  useEffect(() => {
-
-    async function fetchData() {
-      const request = await axios.get("http://pts6.local/api/client/" + id);
-
-      setDataClient(request.data[0]);
-      setInputValues(request.data[0]);
-
-
-      var date = new Date(Date.parse(request.data[0].client_birthday));
-      setValue(date);
-      return request;
-    }
-
-    fetchData();
-
+  useEffect(() => { 
+    getClient(id, setDataClient, setInputValues, setValue) 
   }, []);
 
 
@@ -70,46 +56,16 @@ const ClientDetailPage = () => {
     setIsOpenDelete(false);
   }
 
-  const handleSubmit = () => {
-    console.log(inputValues, value)
-
-    fetch(`http://pts6.local/api/client/${id}/update`, {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(inputValues),
-      mode: 'no-cors',
-      cache: 'default'
-    }).then(function (response) {
-      console.log("YES");
-    })
-      .catch(function (error) {
-        console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
-      });
+  const handleSubmit = () => { 
+    updateClient(inputValues, id) 
   }
 
-  const handleDelete = () => { 
-    fetch(`http://pts6.local/api/client/${id}/delete`, {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(inputValues),
-      mode: 'no-cors',
-      cache: 'default'
-    }).then(function (response) {
-      console.log("YES");
-    })
-      .catch(function (error) {
-        console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
-      });
+  const handleDelete = () => {  
+    deleteClient(id);  
   }
 
 
-
-  console.log(inputValues)
-
+ 
   return (
     <>
       <BreadcrumbsComponent customLabel={dataClient?.client_first_name + " " + dataClient?.client_last_name}></BreadcrumbsComponent>
