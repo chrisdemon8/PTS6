@@ -85,9 +85,8 @@ class Cases
     public function getCases(): bool|array
     {
         $connexion = getConnexion();
-        $req = "SELECT case_id, code, case_description, case_createdAt, case_status, case_end_date
-                FROM av_case c, av_link_case_client lcc
-                WHERE c.case_id = lcc.link_id_case";
+        $req = "SELECT DISTINCT case_id, code, case_description, case_createdAt, case_status, case_end_date
+                FROM av_case";
         $stmt = $connexion->prepare($req);
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -127,7 +126,7 @@ class Cases
     }
 
 
-    public function addCase()
+    public function addCase(): bool|string
     {
         $connexion = getConnexion();
                 $case = json_decode(file_get_contents('php://input'));
@@ -150,7 +149,7 @@ class Cases
                 return json_encode($data);
     }
 
-    public function updateCase($id)
+    public function updateCase($id): bool|string
     {
         $connexion = getConnexion();
                 $case = json_decode(file_get_contents('php://input'));
@@ -169,7 +168,7 @@ class Cases
                 return json_encode($response);
         }
 
-        public function deleteCase($id)
+        public function deleteCase($id): bool|string
         {
             $connexion = getConnexion();
             $sql = "DELETE FROM av_case WHERE case_id = :id";

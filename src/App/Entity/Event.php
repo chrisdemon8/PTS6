@@ -61,7 +61,7 @@ class Event
         return $this;
     }
 
-    public function getEvents()
+    public function getEvents(): bool|array
     {
         $connection = getConnexion();
         $req = "SELECT * FROM av_event";

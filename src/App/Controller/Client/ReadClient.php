@@ -9,7 +9,6 @@ class ReadClient extends AbstractController
 
     public function __invoke(int $id): string
     {
-
         $client = new Client();
         $client = $client->getClientById($id);
         return $this->buildResponse($client);

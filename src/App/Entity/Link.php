@@ -54,6 +54,7 @@ class Link
     public function deleteClientConcernedCase($id)
     {
         $connexion = getConnexion();
+//        $client = json_decode(file_get_contents('php://input'));
         $req = "DELETE FROM av_link_case_client WHERE client_id = :client_id AND case_id = :case_id";
         $stmt = $connexion->prepare($req);
         $stmt->bindParam(':client_id', $id['client_id']);

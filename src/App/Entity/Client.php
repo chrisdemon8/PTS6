@@ -167,16 +167,34 @@ class Client
                 echo json_encode($data);
         }
 
+        public function countCaseByClient($id): bool|array
+        {
+            $connexion = getConnexion();
+            $req = "SELECT count(*) as 'nbCase' FROM av_link_case_client lcc
+                    WHERE lcc.link_id_client = :id";
+            $stmt = $connexion->prepare($req);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt->closeCursor();
+            return $resultat['nbCase'];
+        }
+
         public function deleteClient($id)
         {
             $connexion = getConnexion();
-            $req = "DELETE FROM av_client WHERE client_id = :id";
-            $stmt = $connexion->prepare($req);
-            $stmt->bindParam(':id', $id);
-            if($stmt->execute()) {
-                $response = ['status' => 1, 'message' => 'Record deleted successfully.'];
-            } else {
-                $response = ['status' => 0, 'message' => 'Failed to delete record.'];
+            $nb = $this->countCaseByClient($id);
+            if ($nb == 0) {
+                $req = "DELETE FROM av_client WHERE client_id = :id";
+                $stmt = $connexion->prepare($req);
+                $stmt->bindParam(':id', $id);
+                if ($stmt->execute()) {
+                    $response = ['status' => 1, 'message' => 'Record deleted successfully.'];
+                } else {
+                    $response = ['status' => 0, 'message' => 'Failed to delete record.'];
+                }
+            }else{
+                $response = ['status' => 0, 'message' => 'Cannot delete client with cases'];
             }
             echo json_encode($response);
         }
