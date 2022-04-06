@@ -161,7 +161,7 @@ class Cases
                 }
                 $stmt->bindParam(':case_end_date', $date);
                 $stmt->bindParam(':id', $id);
-                $stmt->bindParam(':case_description', $case->case_escription);
+                $stmt->bindParam(':case_description', $case->case_description);
                 $stmt->bindParam(':case_status', $case->case_status);
                 $stmt->bindParam(':case_end_date', $date);
 
