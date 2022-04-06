@@ -71,6 +71,7 @@
 }
 .container{
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
     align-items:flex-start;
     margin-top: 50px;
@@ -89,7 +90,7 @@
     width: 50px;
     height: auto;
 }
-.container .adresse, .container .birthday, .container .folderInProgress {
+.container .adresse, .container .birthday{
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -97,11 +98,25 @@
     align-items: center;
     background-color: #F6F6F6;
     height: 200px;
-    width: 25%;
+    width: 42%;
     text-align: center;
     border-radius: 10px;
     padding: 20px;
     max-width: 50%;
+}
+.container .folderInProgress {
+    display: flex;
+    flex-direction: column;
+    align-items:flex-start;
+    text-align: left;
+    background-color: #F6F6F6;
+    min-height: 150px;
+    width: 90%;
+    border-radius: 10px;
+    padding: 20px 20px 20px 50px;
+    margin-top: 20px;
+    margin-left: 1%;
+    margin-bottom: 50px;
 }
 }
 @media screen and (max-width: 600px) {

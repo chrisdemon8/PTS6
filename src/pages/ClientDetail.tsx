@@ -76,8 +76,8 @@ const ClientDetailPage = () => {
             <img className={styles.imageclient} src="../profile.png" alt='image client' ></img>
             <div className={styles.labelclient}>
             <p className={styles.name}>Pitt Brad</p>
-              <p className={styles.idclient}>Client ID : {id}</p>
-              <p className={styles.idclient}>Client depuis le : {convertDateFR(dataClient?.client_createdAt)}</p>
+              <p className={styles.clientsince}>Client ID : {id}</p>
+              <p className={styles.clientsince}>Client depuis le : {convertDateFR(dataClient?.client_createdAt)}</p>
             </div>
           </div>
           <div className={styles.groupbutton}>
@@ -94,12 +94,12 @@ const ClientDetailPage = () => {
         <div className={styles.adresse}>
         <img src="../adress.png"></img>
           <h3>Adresse</h3>
-          <p className={styles.detailslabel}>{dataClient?.client_adress}25 rue de Metz - 57000</p>
+          <p className={styles.detailslabel}>{dataClient?.client_adress}</p>
         </div>
         <div className={styles.birthday}>
         <img src="../calendar.png"></img>
           <h3>Date de naissance</h3>
-          <p className={styles.detailslabel}>{convertDateFR(dataClient?.client_birthday)} 21 juillet 1987</p>
+          <p className={styles.detailslabel}>{convertDateFR(dataClient?.client_birthday)}</p>
         </div>
         <div className={styles.folderInProgress}>
         <img src="../folder.png"></img>

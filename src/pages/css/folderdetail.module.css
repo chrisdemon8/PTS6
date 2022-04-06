@@ -165,6 +165,7 @@
         padding: 15px;
         height: 60px;
         width: 30px;
+        font-size: 10px;
     }
     .groupbutton .btnupdate{
         background-color: #75B4FF;
