@@ -54,7 +54,7 @@ class Link
     public function deleteClientConcernedCase($id_case, $id_client)
     {
         $connexion = getConnexion();
-        $req = "DELETE FROM av_link_case_client WHERE client_id = :client_id AND case_id = :case_id";
+        $req = "DELETE FROM av_link_case_client WHERE link_id_client = :client_id AND link_id_case = :case_id";
         $stmt = $connexion->prepare($req);
         $stmt->bindParam(':client_id', $id_client);
         $stmt->bindParam(':case_id', $id_case);
