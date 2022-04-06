@@ -1,8 +1,10 @@
 @media screen and (min-width: 600px) {
+
 .content {
     display: flex;
     flex-direction: column;
 }
+
 .header {
     display: flex;
     justify-content: space-between;
@@ -60,17 +62,17 @@
 .detailsclient{
     background-color: rgb(255, 255, 255);
     border-radius: 10px;
-    height: 500px;
+    min-height: 600px;
 }
 .detailsclient h1{
     padding-left: 3rem;
     padding-top: 1rem;
     font-weight: 200;
     font-size: 35px;
-    letter-spacing: 3px;
 }
 .container{
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
     align-items:flex-start;
     margin-top: 50px;
@@ -81,27 +83,43 @@
     letter-spacing: 3px;
 }
 .detailsclient p, .detailsclient li{
-    font-weight: 700;
+    font-weight: 500;
     margin: 10px 0 0 0;
     font-size: 22px;
 }
 .detailsclient img{
-    width: 50px;
+    width: 40px;
     height: auto;
 }
-.container .adresse, .container .birthday, .container .folderInProgress {
-    overflow-y: auto;
+.container .adresse, .container .birthday {
     display: flex;
     flex-direction: column;
-    text-align: center;
     align-items: center;
     background-color: #F6F6F6;
-    height: 200px;
-    width: 25%;
+    height: 250px;
+    width: 42%;
     text-align: center;
     border-radius: 10px;
     padding: 20px;
-    max-width: 50%;
+    overflow-y: scroll;
+}
+.detailsclient .folderInProgress{
+    display: flex;
+    flex-direction: column;
+    align-items:flex-start;
+    text-align: left;
+    background-color: #F6F6F6;
+    min-height: 150px;
+    width: 90%;
+    border-radius: 10px;
+    padding: 20px 20px 20px 50px;
+    margin-top: 20px;
+    margin-left: 2.5%;
+    margin-bottom: 50px;
+}
+.folderInProgress ul{
+    padding: 0;
+    margin: 0;
 }
 }
 @media screen and (max-width: 600px) {
