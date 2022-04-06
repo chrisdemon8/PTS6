@@ -155,10 +155,11 @@ class Cases
                 $case = json_decode(file_get_contents('php://input'));
                 $sql = "UPDATE av_case SET case_description =:case_description, case_status =:case_status, case_end_date =:case_end_date WHERE case_id = :id";
                 $stmt = $connexion->prepare($sql);
+                $date = date('Y-m-d');
                 $stmt->bindParam(':id', $id);
                 $stmt->bindParam(':case_description', $case->case_escription);
                 $stmt->bindParam(':case_status', $case->case_status);
-                $stmt->bindParam(':case_end_date', $case->case_end_date);
+                $stmt->bindParam(':case_end_date', $date);
 
                 if ($stmt->execute()) {
                     $response = ['status' => 1, 'message' => 'Record updated successfully.'];

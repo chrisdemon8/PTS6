@@ -1,6 +1,6 @@
 <?php
 
-function getConnexion()
+function getConnexion(): PDO
 {
     try {
         $connexion = new PDO('mysql:host=localhost; dbname=avocado; charset=utf8', 'root', '');
