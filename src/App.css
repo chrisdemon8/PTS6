@@ -1,7 +1,12 @@
 .App {
   text-align: center;
 }
-
+.pages{
+  background-color: #F6F6F6;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;

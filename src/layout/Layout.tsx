@@ -87,10 +87,10 @@ const Layout = (props: any) => {
 
     return (
         <Box sx={{ display: 'flex' }}>
-            <AppBar position="fixed" open={open}>
+            <AppBar style={{background: 'white'}} position="fixed" open={open}>
                 <Toolbar>
                     <IconButton
-                        color="inherit"
+                        style={{color: 'black'}}
                         aria-label="open drawer"
                         onClick={handleDrawerOpen}
                         edge="start"
@@ -98,9 +98,17 @@ const Layout = (props: any) => {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" noWrap component="div">
-                        AVOCADO
-                    </Typography>
+                    <Box
+                        component="img"
+                            sx={{
+                            height: 60,
+                            width: 150,
+                            maxHeight: { xs: 233, md: 167 },
+                            maxWidth: { xs: 350, md: 250 },
+        }}
+                            alt="Logo"
+                            src="../logo.png"
+                            />
                 </Toolbar>
             </AppBar>
             <Drawer

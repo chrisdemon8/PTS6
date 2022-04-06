@@ -12,7 +12,7 @@ import FolderDetailPage from './pages/FolderDetailPage';
 function App() {
   return (
     <Router>
-      <div>
+      <div className='pages'>
         <Layout>
           <Routes>
             <Route path='/' element={<HomePage />} />

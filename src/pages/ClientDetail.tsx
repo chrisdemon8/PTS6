@@ -73,34 +73,43 @@ const ClientDetailPage = () => {
       <div className={styles.content}>
         <div className={styles.header}>
           <div className={styles.headermain}>
-            <img className={styles.imageclient} src="https://cdn-icons-png.flaticon.com/512/1250/1250689.png" alt='image client' ></img>
+            <img className={styles.imageclient} src="../profile.png" alt='image client' ></img>
             <div className={styles.labelclient}>
-              <p>Client ID : {id}</p>
-              <p>Client depuis le : {convertDateFR(dataClient?.client_createdAt)}</p>
+            <p className={styles.name}>Pitt Brad</p>
+              <p className={styles.idclient}>Client ID : {id}</p>
+              <p className={styles.idclient}>Client depuis le : {convertDateFR(dataClient?.client_createdAt)}</p>
             </div>
           </div>
           <div className={styles.groupbutton}>
-            <Button onClick={handleDialogOpen}>Modifier</Button>
-            <Button onClick={handleDialogDeleteOpen}>Supprimer</Button>
+            <Button onClick={handleDialogOpen} className={styles.btnupdate}>Modifier</Button>
+            <Button onClick={handleDialogDeleteOpen} className={styles.btndelete}>Supprimer</Button>
           </div>
         </div>
 
+        <div className={styles.line}></div>
+
+    <div className={styles.detailsclient}>
+    <h1>Détails du client</h1>
+        <div className={styles.container}>
         <div className={styles.adresse}>
+        <img src="../adress.png"></img>
           <h3>Adresse</h3>
-          <p>{dataClient?.client_adress}</p>
+          <p className={styles.detailslabel}>{dataClient?.client_adress}25 rue de Metz - 57000</p>
         </div>
         <div className={styles.birthday}>
+        <img src="../calendar.png"></img>
           <h3>Date de naissance</h3>
-
-
-          <p>{convertDateFR(dataClient?.client_birthday)}</p>
+          <p className={styles.detailslabel}>{convertDateFR(dataClient?.client_birthday)} 21 juillet 1987</p>
         </div>
         <div className={styles.folderInProgress}>
-          <h3>Dossier associés</h3>
+        <img src="../folder.png"></img>
+          <h3>Dossiers associés</h3>
           <ul>
-            {dataClient?.cases?.map((element: any) => <li key={element.code}>{"Affaire n° " + element.code + "  |  "} {element.case_status == 0 ? "En cours" : "Terminée"}</li>)}
+            {dataClient?.cases?.map((element: any) => <li key={element.code} className={styles.detailslabel}>{"Affaire n° " + element.code + "  |  "} {element.case_status == 0 ? "En cours" : "Terminée"}</li>)}
           </ul>
         </div>
+        </div> 
+      </div>
       </div>
 
       <ModalComponent isOpen={isOpen} handleClose={handleDialogClose} title='Modification du client'>

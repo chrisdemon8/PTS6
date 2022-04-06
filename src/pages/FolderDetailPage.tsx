@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import BreadcrumbsComponent from '../components/breadcrumbs/Breadcrumbs';
 import ModalComponent from '../components/modal/Modal';
-import styles from './css/clientdetail.module.css'; // Import css modules stylesheet as styles
+import styles from './css/folderdetail.module.css'; // Import css modules stylesheet as styles
 import frLocale from 'date-fns/locale/fr';
 import { deleteCase, getCase, saveClientInCase, saveEventInCase, updateCase } from '../components/request/callapiCase';
 import { getClientsName } from '../components/request/callapiClient';
@@ -139,28 +139,37 @@ const FolderDetailPage = () => {
             <div className={styles.content}>
                 <div className={styles.header}>
                     <div className={styles.headermain}>
-                        <img className={styles.imageclient} src="https://icones.pro/wp-content/uploads/2021/04/icone-de-dossier-symbole-png-noir.png" alt='image dossier' ></img>
+                        <img className={styles.imageclient} src="../folder_icon.png" alt='image dossier' ></img>
                         <div className={styles.labelclient}>
-                            <p>Dossier ID : {id} {dataFolder?.case_status == 0 ? "En cours" : "Terminée"}</p>
-                            <p>Affaire ouverte depuis le : {convertDateFR(dataFolder?.case_createdAt)}</p>
+                            <p  className={styles.clientsince}>Dossier ID : {id} {dataFolder?.case_status == 0 ? "En cours" : "Terminée"}</p>
+                            <p  className={styles.clientsince}>Affaire ouverte depuis le : {convertDateFR(dataFolder?.case_createdAt)}</p>
                         </div>
                     </div>
                     <div className={styles.groupbutton}>
-                        <Button onClick={handleDialogOpen}>Modifier</Button>
-                        <Button color='error' onClick={handleDialogDeleteOpen}>Supprimer</Button>
+                        <Button onClick={handleDialogOpen} className={styles.btnupdate} >Modifier</Button>
+                        <Button color='error' onClick={handleDialogDeleteOpen} className={styles.btndelete}>Supprimer</Button>
                     </div>
                 </div>
 
+                <div className={styles.line}></div>
+
+                <div className={styles.detailsclient}>
+                <h1>Détails du dossier</h1>
+                <div className={styles.container}>
+
                 <div className={styles.adresse}>
+                <img src="../description.png"></img>
                     <h3>Description</h3>
                     <p>{dataFolder?.case_description}</p>
                 </div>
                 <div className={styles.birthday}>
+                <img src="../clients.png"></img>
                     <h3>Clients concernés</h3>
                     {dataFolder?.concernedClient?.map((element: any) => <p key={element.client_id}>{element.client_first_name + " " + element.client_last_name + "  "}</p>)}
                     <Button onClick={handleDialogClientOpen}>Ajouter un client à l'affaire</Button>
                 </div>
                 <div className={styles.folderInProgress}>
+                <img src="../events.png"></img>
                     <h3>Evenement</h3>
                     <ul>
                         {dataFolder?.event?.map((element: any) => <li key={element.event_id}>{element.event_description + " " + convertDateFR(element.event_date) + " Durée " + element.event_duration + "h"}</li>)}
@@ -169,7 +178,8 @@ const FolderDetailPage = () => {
 
                     <Button onClick={handleDialogEventOpen}>Ajouter un évenement</Button>
                 </div>
- 
+                </div>
+                </div>
             </div>
 
             <ModalComponent isOpen={isOpen} handleClose={handleDialogClose} title='Modification du client'>
