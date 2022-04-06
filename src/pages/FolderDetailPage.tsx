@@ -10,6 +10,9 @@ import frLocale from 'date-fns/locale/fr';
 import { deleteCase, getCase, saveClientInCase, saveEventInCase, updateCase } from '../components/request/callapiCase';
 import { getClientsName } from '../components/request/callapiClient';
 import { convertDateFR } from '../utils';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import EventIcon from '@mui/icons-material/Event';
 
 const FolderDetailPage = () => {
 
@@ -50,6 +53,7 @@ const FolderDetailPage = () => {
         setInputValuesEvent({ ...inputValuesEvent, [name]: value });
     };
 
+    console.log(inputValues); 
     /* MODAL AREA */
 
     const handleDialogOpen = () => {
@@ -86,8 +90,7 @@ const FolderDetailPage = () => {
     }
 
     /* END MODAL AREA  */
-
-    console.log(inputValues)
+ 
 
     const handleSubmit = () => {
         updateCase(id, inputValues);
@@ -141,8 +144,8 @@ const FolderDetailPage = () => {
                     <div className={styles.headermain}>
                         <img className={styles.imageclient} src="../folder_icon.png" alt='image dossier' ></img>
                         <div className={styles.labelclient}>
-                            <p  className={styles.clientsince}>Dossier ID : {id} {dataFolder?.case_status == 0 ? "En cours" : "Terminée"}</p>
-                            <p  className={styles.clientsince}>Affaire ouverte depuis le : {convertDateFR(dataFolder?.case_createdAt)}</p>
+                            <p className={styles.clientsince}>Dossier ID : {id} {dataFolder?.case_status == 0 ? "En cours" : "Terminée"}</p>
+                            <p className={styles.clientsince}>Affaire ouverte depuis le : {convertDateFR(dataFolder?.case_createdAt)}</p>
                         </div>
                     </div>
                     <div className={styles.groupbutton}>
@@ -154,31 +157,31 @@ const FolderDetailPage = () => {
                 <div className={styles.line}></div>
 
                 <div className={styles.detailsclient}>
-                <h1>Détails du dossier</h1>
-                <div className={styles.container}>
+                    <h1>Détails du dossier</h1>
+                    <div className={styles.container}>
 
-                <div className={styles.adresse}>
-                <img src="../description.png"></img>
-                    <h3>Description</h3>
-                    <p>{dataFolder?.case_description}</p>
-                </div>
-                <div className={styles.birthday}>
-                <img src="../clients.png"></img>
-                    <h3>Clients concernés</h3>
-                    {dataFolder?.concernedClient?.map((element: any) => <p key={element.client_id}>{element.client_first_name + " " + element.client_last_name + "  "}</p>)}
-                    <Button onClick={handleDialogClientOpen}>Ajouter un client à l'affaire</Button>
-                </div>
-                <div className={styles.folderInProgress}>
-                <img src="../events.png"></img>
-                    <h3>Evenement</h3>
-                    <ul>
-                        {dataFolder?.event?.map((element: any) => <li key={element.event_id}>{element.event_description + " " + convertDateFR(element.event_date) + " Durée " + element.event_duration + "h"}</li>)}
-                    </ul>
+                        <div className={styles.adresse}>
+                            <AssignmentIcon color="primary" sx={{ fontSize: 50 }} />
+                            <h3>Description</h3>
+                            <p>{dataFolder?.case_description}</p>
+                        </div>
+                        <div className={styles.birthday}>
+                            <AccountBoxIcon color="success" sx={{ fontSize: 50 }} />
+                            <h3>Clients concernés</h3>
+                            {dataFolder?.concernedClient?.map((element: any) => <p key={element.client_id}>{element.client_first_name + " " + element.client_last_name + "  "}</p>)}
+                            <Button onClick={handleDialogClientOpen}>Ajouter un client à l'affaire</Button>
+                        </div>
+                        <div className={styles.folderInProgress}>
+                            <EventIcon color="secondary" sx={{ fontSize: 50 }} />
+                            <h3>Evenement</h3>
+                            <ul>
+                                {dataFolder?.event?.map((element: any) => <li key={element.event_id}>{element.event_description + " " + convertDateFR(element.event_date) + " Durée " + element.event_duration + "h"}</li>)}
+                            </ul>
 
 
-                    <Button onClick={handleDialogEventOpen}>Ajouter un évenement</Button>
-                </div>
-                </div>
+                            <Button onClick={handleDialogEventOpen}>Ajouter un évenement</Button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -188,7 +191,7 @@ const FolderDetailPage = () => {
 
                     <h1>Formulaire pour modifier un dossier</h1>
 
-                    <form style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
+                    <form onClick={handleSubmit} style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
                         <TextField
                             style={{ width: "250px", margin: "5px" }}
                             type="text"
@@ -203,7 +206,7 @@ const FolderDetailPage = () => {
                         <FormControlLabel control={<Switch name="case_status" onChange={handleChangeCheckbox} value={state} />} label={state === false ? "En cours" : "Terminée"} />
                         <br />
                         <br />
-                        <Button onClick={handleSubmit} style={{ width: "250px", margin: "5px" }} variant="contained" color="primary">
+                        <Button type="submit" style={{ width: "250px", margin: "5px" }} variant="contained" color="primary">
                             Sauvegarder
                         </Button>
                     </form>

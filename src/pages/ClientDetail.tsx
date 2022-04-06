@@ -9,6 +9,9 @@ import styles from './css/clientdetail.module.css'; // Import css modules styles
 import frLocale from 'date-fns/locale/fr';
 import { deleteClient, getClient, updateClient } from '../components/request/callapiClient';
 import { convertDateFR } from '../utils';
+import MapIcon from '@mui/icons-material/Map';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import FolderIcon from '@mui/icons-material/Folder';
 
 const ClientDetailPage = () => {
 
@@ -75,7 +78,7 @@ const ClientDetailPage = () => {
           <div className={styles.headermain}>
             <img className={styles.imageclient} src="../profile.png" alt='image client' ></img>
             <div className={styles.labelclient}>
-            <p className={styles.name}>Pitt Brad</p>
+              <p className={styles.name}>{dataClient?.client_first_name + " " + dataClient?.client_last_name}</p>
               <p className={styles.clientsince}>Client ID : {id}</p>
               <p className={styles.clientsince}>Client depuis le : {convertDateFR(dataClient?.client_createdAt)}</p>
             </div>
@@ -88,28 +91,28 @@ const ClientDetailPage = () => {
 
         <div className={styles.line}></div>
 
-    <div className={styles.detailsclient}>
-    <h1>Détails du client</h1>
-        <div className={styles.container}>
-        <div className={styles.adresse}>
-        <img src="../adress.png"></img>
-          <h3>Adresse</h3>
-          <p className={styles.detailslabel}>{dataClient?.client_adress}</p>
+        <div className={styles.detailsclient}>
+          <h1>Détails du client</h1>
+          <div className={styles.container}>
+            <div className={styles.adresse}>
+              <MapIcon color="primary" sx={{ fontSize: 50 }} />
+              <h3>Adresse</h3>
+              <p className={styles.detailslabel}>{dataClient?.client_adress}</p>
+            </div>
+            <div className={styles.birthday}>
+              <CalendarMonthIcon color='success' sx={{ fontSize: 50 }} />
+              <h3>Date de naissance</h3>
+              <p className={styles.detailslabel}>{convertDateFR(dataClient?.client_birthday)}</p>
+            </div>
+            <div className={styles.folderInProgress}>
+              <FolderIcon color="secondary" sx={{ fontSize: 50 }} />
+              <h3>Dossiers associés</h3>
+              <ul>
+                {dataClient?.cases?.map((element: any) => <li key={element.code} className={styles.detailslabel}>{"Affaire n° " + element.code + "  |  "} {element.case_status == 0 ? "En cours" : "Terminée"}</li>)}
+              </ul>
+            </div>
+          </div>
         </div>
-        <div className={styles.birthday}>
-        <img src="../calendar.png"></img>
-          <h3>Date de naissance</h3>
-          <p className={styles.detailslabel}>{convertDateFR(dataClient?.client_birthday)}</p>
-        </div>
-        <div className={styles.folderInProgress}>
-        <img src="../folder.png"></img>
-          <h3>Dossiers associés</h3>
-          <ul>
-            {dataClient?.cases?.map((element: any) => <li key={element.code} className={styles.detailslabel}>{"Affaire n° " + element.code + "  |  "} {element.case_status == 0 ? "En cours" : "Terminée"}</li>)}
-          </ul>
-        </div>
-        </div> 
-      </div>
       </div>
 
       <ModalComponent isOpen={isOpen} handleClose={handleDialogClose} title='Modification du client'>

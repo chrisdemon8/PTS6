@@ -125,8 +125,7 @@ const Layout = (props: any) => {
                 open={open}
             >
                 <DrawerHeader>
-                    <Typography variant="h6" noWrap component="div">
-                        AVOCADO MENU
+                    <Typography variant="h6" noWrap component="div"> 
                     </Typography>
                     <IconButton onClick={handleDrawerClose}>
                         {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}

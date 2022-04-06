@@ -1,127 +1,127 @@
 @media screen and (min-width: 600px) {
-
-.content {
-    display: flex;
-    flex-direction: column;
+    .content {
+        display: flex;
+        flex-direction: column;
+    }
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .headermain {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .header .clientsince {
+        font-weight: 200;
+    }
+    .header .name {
+        font-weight: 700;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 2rem;
+        margin: 0;
+        padding: 0;
+    }
+    .groupbutton {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        height: 100px;
+    }
+    .groupbutton .btnupdate,
+    .groupbutton .btndelete {
+        color: white;
+        height: 38px;
+    }
+    .groupbutton .btnupdate {
+        background-color: #75B4FF;
+        margin-bottom: 10px;
+    }
+    .groupbutton .btndelete {
+        background-color: #FF7575;
+    }
+    .imageclient {
+        width: 100px;
+        height: 100px;
+        object-fit: contain;
+        margin-left: 2rem;
+    }
+    .labelclient {
+        height: 100%;
+        margin-left: 4rem;
+    }
+    .content .line {
+        width: 100%;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border-bottom: solid #969696 1px;
+    }
+    .detailsclient {
+        background-color: rgb(255, 255, 255);
+        border-radius: 10px;
+        min-height: 600px;
+    }
+    .detailsclient h1 {
+        padding-left: 3rem;
+        padding-top: 1rem;
+        font-weight: 200;
+        font-size: 35px;
+    }
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: flex-start;
+        margin-top: 50px;
+    }
+    .detailsclient h3 {
+        font-weight: 200;
+        font-size: 25px;
+        letter-spacing: 3px;
+    }
+    .detailsclient p,
+    .detailsclient li {
+        font-weight: 500;
+        margin: 10px 0 0 0;
+        font-size: 22px;
+    }
+    .detailsclient img {
+        width: 40px;
+        height: auto;
+    }
+    .container .adresse,
+    .container .birthday {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #F6F6F6;
+        height: 250px;
+        width: 42%;
+        text-align: center;
+        border-radius: 10px;
+        padding: 20px;
+        overflow-y: scroll;
+    }
+    .detailsclient .folderInProgress {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+        background-color: #F6F6F6;
+        min-height: 150px;
+        width: 90%;
+        border-radius: 10px;
+        padding: 20px 20px 20px 50px;
+        margin-top: 20px;
+        margin-bottom: 50px;
+    }
+    .folderInProgress ul {
+        padding: 0;
+        margin: 0;
+    }
 }
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.headermain{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.header .clientsince{
-    font-weight: 200;
-}
-.header .name{
-    font-weight: 700;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 2rem;
-    margin: 0;
-    padding: 0;
-}
-.groupbutton{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    height: 100px;
-}
-.groupbutton .btnupdate, .groupbutton .btndelete{
-    color: white;
-    height: 38px;
-}
-.groupbutton .btnupdate{
-    background-color: #75B4FF;
-    margin-bottom: 10px;
-}
-.groupbutton .btndelete{
-    background-color: #FF7575;
-}
-.imageclient {
-    width: 100px;
-    height: 100px;
-    object-fit: contain;
-    margin-left: 2rem;
-}
-
-.labelclient {
-    height: 100%;
-    margin-left: 4rem;
-}
-.content .line{
-    width: 100%;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    border-bottom: solid #969696 1px;
-}
-.detailsclient{
-    background-color: rgb(255, 255, 255);
-    border-radius: 10px;
-    min-height: 600px;
-}
-.detailsclient h1{
-    padding-left: 3rem;
-    padding-top: 1rem;
-    font-weight: 200;
-    font-size: 35px;
-}
-.container{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items:flex-start;
-    margin-top: 50px;
-}
-.detailsclient h3{
-    font-weight: 200;
-    font-size: 25px;
-    letter-spacing: 3px;
-}
-.detailsclient p, .detailsclient li{
-    font-weight: 500;
-    margin: 10px 0 0 0;
-    font-size: 22px;
-}
-.detailsclient img{
-    width: 40px;
-    height: auto;
-}
-.container .adresse, .container .birthday {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #F6F6F6;
-    height: 250px;
-    width: 42%;
-    text-align: center;
-    border-radius: 10px;
-    padding: 20px;
-    overflow-y: scroll;
-}
-.detailsclient .folderInProgress{
-    display: flex;
-    flex-direction: column;
-    align-items:flex-start;
-    text-align: left;
-    background-color: #F6F6F6;
-    min-height: 150px;
-    width: 90%;
-    border-radius: 10px;
-    padding: 20px 20px 20px 50px;
-    margin-top: 20px;
-    margin-left: 2.5%;
-    margin-bottom: 50px;
-}
-.folderInProgress ul{
-    padding: 0;
-    margin: 0;
-}
-}
 @media screen and (max-width: 600px) {
     .headermain {
         display: flex;
@@ -138,27 +138,28 @@
         width: 70px;
         height: auto;
     }
-    .header .name{
+    .header .name {
         font-weight: 700;
         font-family: Arial, Helvetica, sans-serif;
         font-size: 20px;
         margin: 10px 0 0 0;
         padding: 0;
     }
-    .header .clientsince{
+    .header .clientsince {
         font-weight: 200;
         font-size: 17px;
     }
-    .groupbutton{
+    .groupbutton {
         display: flex;
         justify-content: center;
     }
-    .groupbutton img{
+    .groupbutton img {
         object-fit: cover;
         height: 30px;
         width: 30px;
     }
-    .groupbutton .btnupdate, .groupbutton .btndelete{
+    .groupbutton .btnupdate,
+    .groupbutton .btndelete {
         color: white;
         margin: 5px;
         border-radius: 50px;
@@ -167,11 +168,11 @@
         width: 30px;
         font-size: 10px;
     }
-    .groupbutton .btnupdate{
+    .groupbutton .btnupdate {
         background-color: #75B4FF;
         margin-right: 50px;
     }
-    .groupbutton .btndelete{
+    .groupbutton .btndelete {
         background-color: #FF7575;
     }
     .content {
@@ -184,20 +185,22 @@
         justify-content: center;
         align-items: center;
     }
-    .detailsclient h1{
+    .detailsclient h1 {
         text-align: center;
         font-weight: 200;
         font-size: 25px;
         letter-spacing: 3px;
     }
-    .container{
+    .container {
         display: flex;
         justify-content: space-around;
         flex-direction: column;
         align-items: center;
         margin-top: 50px;
     }
-    .container .adresse, .container .birthday, .container .folderInProgress {
+    .container .adresse,
+    .container .birthday,
+    .container .folderInProgress {
         display: flex;
         flex-direction: column;
         text-align: center;
@@ -208,19 +211,20 @@
         text-align: center;
         border-radius: 10px;
         padding: 20px;
-        margin-bottom:20px;
+        margin-bottom: 20px;
     }
-    .detailsclient h3{
+    .detailsclient h3 {
         font-weight: 200;
         font-size: 17px;
         letter-spacing: 1px;
     }
-    .detailsclient p, .detailsclient li{
+    .detailsclient p,
+    .detailsclient li {
         font-weight: 700;
         margin: 10px 0 0 0;
         font-size: 19px;
     }
-    .detailsclient img{
+    .detailsclient img {
         width: 30px;
         height: auto;
     }
