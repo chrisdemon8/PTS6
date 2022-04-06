@@ -146,7 +146,7 @@ class Cases
                 } else {
                     $data = ['status' => 0, 'message' => "Failed to create record."];
                 }
-                return json_encode($data);
+                echo json_encode($data);
     }
 
     public function updateCase($id): bool|string
@@ -170,7 +170,7 @@ class Cases
                 } else {
                     $response = ['status' => 0, 'message' => 'Failed to update record.'];
                 }
-                return json_encode($response);
+                echo json_encode($response);
         }
 
         public function deleteCase($id): bool|string
@@ -184,7 +184,7 @@ class Cases
             } else {
                 $response = ['status' => 0, 'message' => 'Failed to delete record.'];
             }
-            return json_encode($response);
+            echo json_encode($response);
         }
 
 }
