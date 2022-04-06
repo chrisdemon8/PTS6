@@ -11,7 +11,6 @@ class Cases
 {
     protected string $caseDescription;
     protected \DateTime $caseCreatedAt;
-    protected int $code;
     protected string $caseStatus;
     protected \DateTime $caseEndDate;
 
@@ -85,7 +84,7 @@ class Cases
     public function getCases(): bool|array
     {
         $connexion = getConnexion();
-        $req = "SELECT DISTINCT case_id, code, case_description, case_createdAt, case_status, case_end_date
+        $req = "SELECT DISTINCT case_id, case_description, case_createdAt, case_status, case_end_date
                 FROM av_case";
         $stmt = $connexion->prepare($req);
         $stmt->execute();
@@ -119,24 +118,36 @@ class Cases
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         for ($i = 0; $i < count($result); $i++) {
             $result[$i]['concernedClient'] = $this->getConcernedClients($result[$i]['case_id']);
+            $result[$i]['totalTime'] = $this->getCaseTime($result[$i]['case_id']);
             $result[$i]['event'] = $this->getEvents($result[$i]['case_id']);
         }
 
         return $result;
     }
 
+    public function getCaseTime($id): int
+    {
+        $connexion = getConnexion();
+        $req = "SELECT SUM(event_duration) as time
+                FROM av_event e, av_case c
+                WHERE c.case_id = e.event_id_case
+                AND e.event_id_case = :id";
+        $stmt = $connexion->prepare($req);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result[0]['time'];
+    }
 
-    public function addCase(): bool|string
+    public function addCase()
     {
         $connexion = getConnexion();
                 $case = json_decode(file_get_contents('php://input'));
-                $sql = "INSERT INTO av_case(case_id, code, case_description, case_createdAt, case_status)
+                $sql = "INSERT INTO av_case(case_id, case_description, case_createdAt, case_status)
                         VALUES (NULL, :code, :case_description, :case_createdAt, :case_status)";
                 $stmt = $connexion->prepare($sql);
                 $date = date('Y-m-d');
                 $status = 0;
-                $lastInsertId = $connexion->lastInsertId('case_id');
-                $stmt->bindParam(':code',$lastInsertId);
                 $stmt->bindParam(':case_description', $case->case_description);
                 $stmt->bindParam(':case_createdAt', $date);
                 $stmt->bindParam(':case_status', $status);
@@ -149,7 +160,7 @@ class Cases
                 echo json_encode($data);
     }
 
-    public function updateCase($id): bool|string
+    public function updateCase($id)
     {
         $connexion = getConnexion();
                 $case = json_decode(file_get_contents('php://input'));
@@ -173,7 +184,7 @@ class Cases
                 echo json_encode($response);
         }
 
-        public function deleteCase($id): bool|string
+        public function deleteCase($id)
         {
             $connexion = getConnexion();
             $sql = "DELETE FROM av_case WHERE case_id = :id";

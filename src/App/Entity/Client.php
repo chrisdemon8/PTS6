@@ -101,7 +101,7 @@ class Client
     public function getCases($id): bool|array
     {
         $connexion = getConnexion();
-        $req = "SELECT case_id, code, case_description, case_createdAt, case_status, case_end_date
+        $req = "SELECT case_id, case_description, case_createdAt, case_status, case_end_date
                 FROM av_case c, av_link_case_client lcc
                 WHERE c.case_id = lcc.link_id_case
                 AND lcc.link_id_client =" . $id;
@@ -167,7 +167,7 @@ class Client
                 echo json_encode($data);
         }
 
-        public function countCaseByClient($id): bool|array
+        public function countCaseByClient($id): int
         {
             $connexion = getConnexion();
             $req = "SELECT count(*) as 'nbCase' FROM av_link_case_client lcc

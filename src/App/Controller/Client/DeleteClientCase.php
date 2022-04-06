@@ -7,11 +7,11 @@ use Framework\Controller\AbstractController;
 class DeleteClientCase extends AbstractController
 {
 
-    public function __invoke($id): string
+    public function __invoke($id_case, $id_client): string
     {
 
         $link = new Link();
-        $link = $link->deleteClientConcernedCase($id);
+        $link = $link->deleteClientConcernedCase($id_case, $id_client);
         return $this->buildResponse($link);
     }
 }
