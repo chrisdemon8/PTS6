@@ -136,7 +136,7 @@ class Cases
         $stmt->bindParam(':id', $id);
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $result[0]['time'];
+        return $result[0]['time'] ?? 0;
     }
 
     public function addCase()
