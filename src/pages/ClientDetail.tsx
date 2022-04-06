@@ -1,6 +1,6 @@
 import { LocalizationProvider, MobileDatePicker } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import { Button, TextField } from '@mui/material'; 
+import { Button, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import BreadcrumbsComponent from '../components/breadcrumbs/Breadcrumbs';
@@ -8,6 +8,7 @@ import ModalComponent from '../components/modal/Modal';
 import styles from './css/clientdetail.module.css'; // Import css modules stylesheet as styles
 import frLocale from 'date-fns/locale/fr';
 import { deleteClient, getClient, updateClient } from '../components/request/callapiClient';
+import { convertDateFR } from '../utils';
 
 const ClientDetailPage = () => {
 
@@ -35,8 +36,8 @@ const ClientDetailPage = () => {
     setInputValues({ ...inputValues, [name]: value });
   };
 
-  useEffect(() => { 
-    getClient(id, setDataClient, setInputValues, setValue) 
+  useEffect(() => {
+    getClient(id, setDataClient, setInputValues, setValue)
   }, []);
 
 
@@ -56,16 +57,16 @@ const ClientDetailPage = () => {
     setIsOpenDelete(false);
   }
 
-  const handleSubmit = () => { 
-    updateClient(inputValues, id) 
+  const handleSubmit = () => {
+    updateClient(inputValues, id)
   }
 
-  const handleDelete = () => {  
-    deleteClient(id);  
+  const handleDelete = () => {
+    deleteClient(id);
   }
 
 
- 
+
   return (
     <>
       <BreadcrumbsComponent customLabel={dataClient?.client_first_name + " " + dataClient?.client_last_name}></BreadcrumbsComponent>
@@ -75,7 +76,7 @@ const ClientDetailPage = () => {
             <img className={styles.imageclient} src="https://cdn-icons-png.flaticon.com/512/1250/1250689.png" alt='image client' ></img>
             <div className={styles.labelclient}>
               <p>Client ID : {id}</p>
-              <p>Client depuis le : {(new Date(Date.parse(dataClient?.client_createdAt))).toLocaleString([], { day: 'numeric', month: 'numeric', year: 'numeric' })}</p>
+              <p>Client depuis le : {convertDateFR(dataClient?.client_createdAt)}</p>
             </div>
           </div>
           <div className={styles.groupbutton}>
@@ -92,7 +93,7 @@ const ClientDetailPage = () => {
           <h3>Date de naissance</h3>
 
 
-          <p>{(new Date(Date.parse(dataClient?.client_birthday))).toLocaleString([], { day: 'numeric', month: 'numeric', year: 'numeric' })}</p>
+          <p>{convertDateFR(dataClient?.client_birthday)}</p>
         </div>
         <div className={styles.folderInProgress}>
           <h3>Dossier associés</h3>

@@ -39,22 +39,22 @@ const FolderPage = () => {
     setAge(event.target.value as string);
   };
 
-  useEffect(() => { 
+  useEffect(() => {
     getCases(setDataCases);
   }, []);
- 
-  const handleSubmit = () => { 
-    saveCase(inputValues); 
+
+  const handleSubmit = () => {
+    saveCase(inputValues);
   }
-  
+
   return (
     <>
       FolderPage
       <Button onClick={handleDialogOpen}>Ajouter un dossier</Button>
       {<Table columns={[
-        { title: "Code", field: "code" },
-        { title: "Statut", field: "case_status" },
-        { title: "Clients", field: "concernedClientLabel" },
+        { title: "Code", field: "code", filtering: false },
+        { title: "Statut", field: "statusLabel" },
+        { title: "Clients", field: "concernedClientLabel", filtering: false },
       ]}
         dataFrom={dataCases}
         nameId="case_id"
@@ -76,7 +76,7 @@ const FolderPage = () => {
               onChange={handleOnChange}
               required
             />
-            <br />  
+            <br />
             <br />
             <Button onClick={handleSubmit} style={{ width: "250px", margin: "5px" }} variant="contained" color="primary">
               Ajouter

@@ -13,12 +13,17 @@ switch (BUILD_TYPE) {
         break;
 }
 
-export const getCase = (id: any, setDataFolder: any, setInputValues: any) => {
+export const getCase = (id: any, setDataFolder: any, setInputValues: any, setState: any) => {
 
     async function fetchData() {
         const request = await axios.get(prefixUrl + "api/case/" + id);
         setDataFolder(request.data[0]);
         setInputValues(request.data[0]);
+        if (request.data[0].case_status == 0)
+            setState(false);
+        else
+            setState(true);
+
 
         return request;
     }
@@ -54,6 +59,10 @@ export const getCases = (setDataCases: any) => {
         const request = await axios.get(prefixUrl + "api/cases");
 
         request.data.forEach((element: any) => element.concernedClientLabel = "");
+
+
+        request.data.forEach((element: any) => element.statusLabel = "");
+        request.data.forEach((element: any) => element.statusLabel += (element.case_status == 0 ? "En cours" : "Terminée"));
 
         request.data.forEach((element: any) => element.concernedClientLabel += element.concernedClient.map((element: any) => (element.client_first_name + " " + element.client_last_name)));
 
@@ -111,7 +120,7 @@ export const saveClientInCase = (id: any, link_id_client: any) => {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ 'link_id_client': 2 }),
+        body: JSON.stringify({ link_id_client }),
         mode: 'no-cors',
         cache: 'default'
     }).then(function (response) {
@@ -120,7 +129,7 @@ export const saveClientInCase = (id: any, link_id_client: any) => {
         console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
     });
 }
- 
+
 
 export const deleteCase = (id: any) => {
 

@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import MaterialTable, { Icons } from "@material-table/core";
 // @ts-ignore 
 import {
@@ -18,9 +18,10 @@ import {
     Search,
     ViewColumn
 } from "@mui/icons-material";
-import Container from '@mui/material/Container'; 
+import Container from '@mui/material/Container';
 import { Client, RowType } from "../../entity/type";
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Checkbox, MenuItem, Select } from "@mui/material";
 
 
 
@@ -63,6 +64,7 @@ const options = {
     pageSize: 10,
     emptyRowsWhenPaging: false,
     pageSizeOptions: [10, 20, 50],
+    filtering: true
 };
 
 export const Table = ({ columns, dataFrom, nameId }: any) => {
@@ -75,7 +77,7 @@ export const Table = ({ columns, dataFrom, nameId }: any) => {
     const location = useLocation();
 
     const pathnames = location.pathname.split('/').filter((x) => x);
-
+ 
     return (
         <Container>
             <MaterialTable
@@ -85,8 +87,6 @@ export const Table = ({ columns, dataFrom, nameId }: any) => {
                 options={options}
                 onRowClick={(event, rowData) => { navigate("/" + pathnames[0] + "/" + rowData[nameId]) }}
                 localization={{ body: { editRow: { deleteText: 'Êtes-vous sûr de supprimer cette ligne ?' }, deleteTooltip: "Supprimer" } }}
-
-
 
             />
         </Container>

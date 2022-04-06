@@ -60,8 +60,8 @@ const ClientPage = () => {
         <h1>Listes des clients</h1>
         <Button onClick={handleDialogOpen}>Ajouter un client</Button>
         <Table columns={[
-          { title: "Prénom", field: "client_first_name" },
-          { title: "Nom de famille", field: "client_last_name" }
+          { title: "Prénom", field: "client_first_name",  filtering: false },
+          { title: "Nom de famille", field: "client_last_name",  filtering: false }
         ]} dataFrom={dataClients}
           nameId="client_id"
         />
@@ -75,7 +75,7 @@ const ClientPage = () => {
 
           <h2>Formulaire pour ajouter un client</h2>
 
-          <form style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
+          <form onSubmit={handleSubmit} style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
             <TextField
               style={{ width: "250px", margin: "5px" }}
               type="text"

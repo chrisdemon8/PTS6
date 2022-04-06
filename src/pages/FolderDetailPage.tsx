@@ -8,6 +8,8 @@ import ModalComponent from '../components/modal/Modal';
 import styles from './css/clientdetail.module.css'; // Import css modules stylesheet as styles
 import frLocale from 'date-fns/locale/fr';
 import { deleteCase, getCase, saveClientInCase, saveEventInCase, updateCase } from '../components/request/callapiCase';
+import { getClientsName } from '../components/request/callapiClient';
+import { convertDateFR } from '../utils';
 
 const FolderDetailPage = () => {
 
@@ -30,7 +32,7 @@ const FolderDetailPage = () => {
     const [dataFolder, setDataFolder]: any = useState([]);
 
     useEffect(() => {
-        getCase(id, setDataFolder, setInputValues);
+        getCase(id, setDataFolder, setInputValues, setState);
     }, []);
 
 
@@ -91,29 +93,45 @@ const FolderDetailPage = () => {
         updateCase(id, inputValues);
     }
 
-
-
     const handleSubmitClient = () => {
 
-        let link_id_client = 2; 
+        let link_id_client = clientSelect;
         saveClientInCase(id, link_id_client);
     }
 
-    const handleSubmitEvent = () => { 
-        saveEventInCase(id,inputValuesEvent );  
+    const handleSubmitEvent = () => {
+        saveEventInCase(id, inputValuesEvent);
     }
 
     const handleDelete = () => {
-        deleteCase(id);  
+        deleteCase(id);
     }
 
-
-
-    const [clientSelect, setClientSelect] = React.useState('');
+    const [clientSelect, setClientSelect] = React.useState("1");
 
     const handleChangeSelect = (event: SelectChangeEvent) => {
         setClientSelect(event.target.value as string);
     };
+
+
+    const [dataClients, setDataClients]: any = useState([]);
+    useEffect(() => {
+        getClientsName(setDataClients);
+    }, []);
+
+    const [state, setState] = React.useState(false);
+
+
+    const handleChangeCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setState(event.target.checked);
+        setInputValues({ ...inputValues, case_status: state });
+    };
+
+    /*
+    let totalTime = 0;
+    totalTime += parseInt(dataFolder?.event?.map((element: any) => element.event_duration));
+*/
+
 
     return (
         <>
@@ -124,7 +142,7 @@ const FolderDetailPage = () => {
                         <img className={styles.imageclient} src="https://icones.pro/wp-content/uploads/2021/04/icone-de-dossier-symbole-png-noir.png" alt='image dossier' ></img>
                         <div className={styles.labelclient}>
                             <p>Dossier ID : {id} {dataFolder?.case_status == 0 ? "En cours" : "Terminée"}</p>
-                            <p>Affaire ouverte depuis le : {dataFolder?.case_createdAt}</p>
+                            <p>Affaire ouverte depuis le : {convertDateFR(dataFolder?.case_createdAt)}</p>
                         </div>
                     </div>
                     <div className={styles.groupbutton}>
@@ -145,12 +163,13 @@ const FolderDetailPage = () => {
                 <div className={styles.folderInProgress}>
                     <h3>Evenement</h3>
                     <ul>
-                        {dataFolder?.event?.map((element: any) => <li key={element.event_id}>{element.event_description + " " + element.event_date + " Durée " + element.event_duration + "h"}</li>)}
+                        {dataFolder?.event?.map((element: any) => <li key={element.event_id}>{element.event_description + " " + convertDateFR(element.event_date) + " Durée " + element.event_duration + "h"}</li>)}
                     </ul>
 
 
                     <Button onClick={handleDialogEventOpen}>Ajouter un évenement</Button>
                 </div>
+ 
             </div>
 
             <ModalComponent isOpen={isOpen} handleClose={handleDialogClose} title='Modification du client'>
@@ -171,7 +190,7 @@ const FolderDetailPage = () => {
                             required
                         />
                         <br />
-                        <FormControlLabel control={<Switch name="case_status" onChange={handleOnChange} value={inputValues?.case_status == 0 ? true : inputValues?.case_status == 1 ? false : !inputValues?.case_status} />} label={inputValues?.case_status == 0 || false ? "En cours" : "Terminée"} />
+                        <FormControlLabel control={<Switch name="case_status" onChange={handleChangeCheckbox} value={state} />} label={state === false ? "En cours" : "Terminée"} />
                         <br />
                         <br />
                         <Button onClick={handleSubmit} style={{ width: "250px", margin: "5px" }} variant="contained" color="primary">
@@ -251,9 +270,9 @@ const FolderDetailPage = () => {
                             label="Client"
                             onChange={handleChangeSelect}
                         >
-                            <MenuItem value={10}>Robert</MenuItem>
-                            <MenuItem value={20}>Jean</MenuItem>
-                            <MenuItem value={30}>Jacques</MenuItem>
+
+                            {dataClients?.map((client: any) => <MenuItem key={client.client_id} value={client.client_id}>{client.clientLabel}</MenuItem>)}
+
                         </Select>
                         <br />
                         <br />

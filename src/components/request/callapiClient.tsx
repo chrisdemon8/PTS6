@@ -17,7 +17,7 @@ switch (BUILD_TYPE) {
         break;
 }
 
-export const saveClient = (inputValues: any) => { 
+export const saveClient = (inputValues: any) => {
 
     fetch(prefixUrl + "api/clients/save", {
         method: 'POST',
@@ -35,7 +35,7 @@ export const saveClient = (inputValues: any) => {
 }
 
 export const loadClients = (setDataClients: any) => {
- 
+
     async function fetchData() {
 
         const request = await axios.get(prefixUrl + "api/clients");
@@ -47,7 +47,7 @@ export const loadClients = (setDataClients: any) => {
     }
     fetchData();
 }
- 
+
 export const getClient = (id: any, setDataClient: any, setInputValues: any, setValue: any) => {
 
     async function fetchData() {
@@ -63,6 +63,26 @@ export const getClient = (id: any, setDataClient: any, setInputValues: any, setV
     }
 
     fetchData();
+}
+
+export const getClientsName = (setDataClients: any) => {
+
+
+    async function fetchData() {
+
+        const request = await axios.get(prefixUrl + "api/clients");
+
+       
+
+        request.data.forEach((element: any) => element.clientLabel = "");
+
+        request.data.forEach((element: any) => element.clientLabel += element.client_first_name + " " + element.client_last_name);
+        setDataClients(request.data);
+ 
+        return request;
+    }
+    fetchData();
+ 
 }
 
 /* 
@@ -93,7 +113,7 @@ export const deleteClient = (id: any) => {
             console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
         });
 }
- 
+
 export const updateClient = (inputValues: any, id: any) => {
     fetch(prefixUrl + `api/client/${id}/update`, {
         method: 'POST',
