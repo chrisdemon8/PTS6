@@ -63,6 +63,9 @@ Créer la build android depuis le build du site
 
 Avoir android studio sur son pc et lancer 
 - `npx cap open android`
+
+Dans android studio faire la manipuation suivante :
+- `https://bigdata-etl.com/connect-android-emulator-to-localhost-application/`
  
 
 ## Build electron 
@@ -118,6 +121,7 @@ my-app/
 
 # ionic capacitor 
 - `https://capacitorjs.com/solution/react`
+- `https://bigdata-etl.com/connect-android-emulator-to-localhost-application/`
 
 # webpack
 - `https://webpack.js.org/loaders/css-loader/`
