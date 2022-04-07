@@ -112,6 +112,7 @@ const ClientPage = () => {
                 value={value}
                 onChange={(newValue) => {
                   setInputValues({ ...inputValues, "client_birthday": newValue });
+                  setValue(newValue); 
                 }}
                 renderInput={(params) => <TextField {...params} />}
               />

@@ -2,7 +2,7 @@ import { LocalizationProvider, MobileDatePicker } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { Button, FormControlLabel, MenuItem, Select, SelectChangeEvent, Switch, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import BreadcrumbsComponent from '../components/breadcrumbs/Breadcrumbs';
 import ModalComponent from '../components/modal/Modal';
 import styles from './css/folderdetail.module.css'; // Import css modules stylesheet as styles
@@ -20,6 +20,8 @@ import IconButton from '@mui/material/IconButton';
 const FolderDetailPage = () => {
 
     let { id } = useParams();
+
+    const navigate = useNavigate();
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -112,6 +114,7 @@ const FolderDetailPage = () => {
 
     const handleDelete = () => {
         deleteCase(id);
+        navigate("/dossiers"); 
     }
 
 

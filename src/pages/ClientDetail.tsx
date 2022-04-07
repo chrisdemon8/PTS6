@@ -66,8 +66,11 @@ const ClientDetailPage = () => {
 
   const handleDelete = () => {
     deleteClient(id);
+    navigate("/clients"); 
   }
 
+
+  console.log(dataClient)
 
 
   return (
@@ -85,7 +88,10 @@ const ClientDetailPage = () => {
           </div>
           <div className={styles.groupbutton}>
             <Button onClick={handleDialogOpen} className={styles.btnupdate}>Modifier</Button>
-            <Button onClick={handleDialogDeleteOpen} className={styles.btndelete}>Supprimer</Button>
+            {
+              dataClient?.cases?.length === 0 ? <Button onClick={handleDialogDeleteOpen} className={styles.btndelete}>Supprimer</Button> : <p>Client lié à des affaires</p>
+            }
+            
           </div>
         </div>
 
@@ -183,7 +189,7 @@ const ClientDetailPage = () => {
       <ModalComponent isOpen={isOpenDelete} handleClose={handleDialogDeleteClose} title="Suppression d'un client">
         <>
           <h2>Etes-vous sur de vouloir supprimer le client {dataClient?.client_first_name + " " + dataClient?.client_last_name} ?</h2>
-          <Button onClick={handleDelete} variant="contained" color="error">
+          <Button onClick={ handleDelete} variant="contained" color="error">
             Supprimer
           </Button>
         </>
