@@ -141,10 +141,13 @@ class Cases
 
     public function addCase()
     {
+
+        
         $connexion = getConnexion();
                 $case = json_decode(file_get_contents('php://input'));
-                $sql = "INSERT INTO av_case(case_id, case_description, case_createdAt, case_status)
-                        VALUES (NULL, :code, :case_description, :case_createdAt, :case_status)";
+                    var_dump($case); 
+              $sql = "INSERT INTO av_case(case_id, case_description, case_createdAt, case_status)
+                        VALUES (NULL, :case_description, :case_createdAt, :case_status)";
                 $stmt = $connexion->prepare($sql);
                 $date = date('Y-m-d');
                 $status = 0;
