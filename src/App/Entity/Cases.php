@@ -145,7 +145,6 @@ class Cases
         
         $connexion = getConnexion();
                 $case = json_decode(file_get_contents('php://input'));
-                    var_dump($case); 
               $sql = "INSERT INTO av_case(case_id, case_description, case_createdAt, case_status)
                         VALUES (NULL, :case_description, :case_createdAt, :case_status)";
                 $stmt = $connexion->prepare($sql);
