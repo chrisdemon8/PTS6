@@ -6,13 +6,6 @@ use App\Serializer\JsonSerializer;
 
 abstract class AbstractController
 {
-
-    public function redirect(string $url): void
-    {
-        header('Location: ' . $url);
-        exit();
-    }
-
     protected function buildResponse($data): string
     {
         header("Access-Control-Allow-Origin: *");
