@@ -8,9 +8,19 @@
   
 # Prérequis pour faire fonctionner le projet 
 
+## Clone du projet
+
+- Ayant fait l'erreur (non corrigé car présence de l'historique des commit) de ne créer que un seul repo git pour le back et le front il faut clone le projet deux fois dans une dossier front et un dossier back puis changer la branch pour le front `git checkout front-end` et le back `git checkout back-end-florian`
+- Une fois les deux dossiers initialisés il faut faire pour le front un `npm i` et pour le back un `composer i`
+
 ## Faire un virtualhost 
 - Virtualhost pour faire tourner le back-end ( > PHP 8) 
-- Nom du virtual host pour call l'api : pts6.local ( nom du virtual host changeable il faut modifier les fichiers src/components/request/callapiCase  et callapiClient)
+- Virtualhost qui pointe sur le dossier back que vous avez créer avant
+- Nom du virtual host pour call l'api : pts6.local ( nom du virtual host changeable il faut modifier les fichiers src/components/request/callapiCase  et callapiClient, variable prefixURL pour le build par défaut)
+- Importer le code sql (racide du projet bddAvocado.sql) du back-end dans un server sql (credential et et nom de la base de données à changé dans le fichier src/app/controller/connexion/connexion.php)
+
+
+- Pour le front il suffit de lire les étapes suivantes en fonction du build
 
 # Les différentes build
 
