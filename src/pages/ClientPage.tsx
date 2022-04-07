@@ -4,9 +4,12 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import { Button, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import ModalComponent from '../components/modal/Modal';
-import { Table } from '../components/table/Table';
+
+import { useTable } from 'react-table';
 import styles from './css/clientdetail.module.css'; // I
 import { loadClients, saveClient } from '../components/request/callapiClient';
+import { NewTable } from '../components/table/NewTable';
+import { Table } from '../components/table/Table';
 const ClientPage = () => {
 
   const [dataClients, setDataClients]: any = useState([]);
@@ -53,26 +56,50 @@ const ClientPage = () => {
 
   console.log(locale_date_string);*/
 
+
+
+  const columns = React.useMemo(
+    () => [
+      {
+        Header: 'Prénom',
+        accessor: 'client_first_name',
+      },
+      {
+        Header: 'Nom',
+        accessor: 'client_last_name',
+      },
+    ],
+    []
+  )
+
+
+  console.log(dataClients)
   return (
     <>
 
 
       <div className={styles.content}>
-        <h1>Listes des clients</h1>
-        <Button onClick={handleDialogOpen}>Ajouter un client</Button>
-        <Table columns={[
+
+        <div className={styles.contenttablepage}>
+          <h1>Listes des clients</h1>
+
+          <Button onClick={handleDialogOpen} variant="contained" color="primary" >Ajouter un client</Button>
+        </div>
+
+        {/*<NewTable columns={columns} data={dataClients} /> */}
+
+         <Table columns={[
           { title: "Prénom", field: "client_first_name", filtering: false },
           { title: "Nom de famille", field: "client_last_name", filtering: false }
         ]} dataFrom={dataClients}
           nameId="client_id"
         />
-
       </div>
 
 
 
       <ModalComponent isOpen={isOpen} handleClose={handleDialogClose}
-        buttonAction={ 
+        buttonAction={
           <Button onClick={handleSubmit} variant="contained" color="primary">
             Ajouter
           </Button>
@@ -112,16 +139,17 @@ const ClientPage = () => {
               onChange={handleOnChange}
               required
             />
+            <br />
             <LocalizationProvider
               dateAdapter={AdapterDateFns}>
               <MobileDatePicker
-                label="For mobile"
+                label="Date d'anniversaire"
                 value={value}
                 onChange={(newValue) => {
                   setInputValues({ ...inputValues, "client_birthday": newValue });
                   setValue(newValue);
                 }}
-                renderInput={(params) => <TextField {...params} />}
+                renderInput={(params) => <TextField style={{ width: "250px", margin: "5px" }} {...params} />}
               />
             </LocalizationProvider>
             <br />
@@ -132,3 +160,4 @@ const ClientPage = () => {
   )
 }
 export default ClientPage
+

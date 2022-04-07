@@ -80,6 +80,7 @@
         "@capacitor/cli": "^3.4.3",
         "@types/faker": "^6.6.9",
         "@types/lodash": "^4.14.179",
+        "@types/react-table": "^7.7.10",
         "concurrently": "^7.0.0",
         "cross-env": "^7.0.3",
         "css-loader": "^6.7.1",

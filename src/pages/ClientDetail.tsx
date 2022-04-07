@@ -1,6 +1,6 @@
 import { LocalizationProvider, MobileDatePicker } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import { Button, TextField } from '@mui/material';
+import { Button, TextField, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import BreadcrumbsComponent from '../components/breadcrumbs/Breadcrumbs';
@@ -82,7 +82,6 @@ const ClientDetailPage = () => {
             <img className={styles.imageclient} src="../profile.png" alt='image client' ></img>
             <div className={styles.labelclient}>
               <p className={styles.name}>{dataClient?.client_first_name + " " + dataClient?.client_last_name}</p>
-              <p className={styles.clientsince}>Client ID : {id}</p>
               <p className={styles.clientsince}>Client depuis le : {convertDateFR(dataClient?.client_createdAt)}</p>
             </div>
           </div>
@@ -96,6 +95,13 @@ const ClientDetailPage = () => {
           </div>
         </div>
 
+        {
+          dataClient?.cases?.length === 0 ? "" :
+            <Typography variant="overline" display="block" gutterBottom>
+              Client non supprimable car lié à une affaire
+            </Typography>
+
+        }
         <div className={styles.line}></div>
 
         <div className={styles.detailsclient}>
@@ -165,6 +171,7 @@ const ClientDetailPage = () => {
               onChange={handleOnChange}
               required
             />
+            <br />
             <LocalizationProvider
               dateAdapter={AdapterDateFns}
               locale={frLocale}
@@ -177,7 +184,7 @@ const ClientDetailPage = () => {
                   setInputValues({ ...inputValues, "client_birthday": newValue });
                   setValue(newValue);
                 }}
-                renderInput={(params) => <TextField {...params} />}
+                renderInput={(params) => <TextField style={{ width: "250px", margin: "5px" }} {...params} />}
               />
             </LocalizationProvider>
             <br />

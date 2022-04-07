@@ -152,6 +152,8 @@ const FolderDetailPage = () => {
         setInputValues({ ...inputValues, case_status: event.target.checked });
     };
 
+
+    console.log(dataFolder)
     return (
         <>
             <BreadcrumbsComponent customLabel={"Affaire " + dataFolder?.case_id}></BreadcrumbsComponent>
@@ -219,7 +221,7 @@ const FolderDetailPage = () => {
                                 {dataFolder?.event?.map((element: any) => <li key={element.event_id}>{element.event_description + " " + convertDateFR(element.event_date) + " Durée " + element.event_duration + "h"}</li>)}
                             </ul>
 
-
+                            <p>Temps total : {dataFolder?.totalTime}h</p>
 
                             {
                                 dataFolder?.case_end_date != null ? "" :
@@ -300,7 +302,7 @@ const FolderDetailPage = () => {
                                     setInputValuesEvent({ ...inputValuesEvent, "event_date": newValue });
                                     setValueDate(newValue);
                                 }}
-                                renderInput={(params) => <TextField {...params} />}
+                                renderInput={(params) => <TextField style={{ width: "250px", margin: "5px" }} {...params} />}
                             />
                         </LocalizationProvider>
                         <br />
