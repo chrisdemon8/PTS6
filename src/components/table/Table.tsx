@@ -77,10 +77,11 @@ export const Table = ({ columns, dataFrom, nameId }: any) => {
     const location = useLocation();
 
     const pathnames = location.pathname.split('/').filter((x) => x);
- 
+
     return (
         <Container>
             <MaterialTable
+                title={""}
                 columns={columns}
                 data={dataFrom}
                 icons={tableIcons}

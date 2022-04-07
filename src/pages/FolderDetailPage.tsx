@@ -25,6 +25,8 @@ const FolderDetailPage = () => {
 
     const [isOpen, setIsOpen] = useState(false);
 
+    const [reload, setReload] = useState(false);
+
     const [isOpenEvent, setIsOpenEvent] = useState(false);
 
     const [isOpenClient, setIsOpenClient] = useState(false);
@@ -41,7 +43,9 @@ const FolderDetailPage = () => {
 
     useEffect(() => {
         getCase(id, setDataFolder, setInputValues, setState);
-    }, []);
+
+        setInputValuesEvent({ ...inputValuesEvent, "event_date": new Date() });
+    }, [isOpen, isOpenEvent, isOpenClient, reload]);
 
 
     console.log(dataFolder);
@@ -100,27 +104,30 @@ const FolderDetailPage = () => {
 
     const handleSubmit = () => {
         updateCase(id, inputValues);
+        setIsOpen(false);
     }
 
     const handleSubmitClient = () => {
 
         let link_id_client = clientSelect;
         saveClientInCase(id, link_id_client);
+        setIsOpenClient(false);
     }
 
     const handleSubmitEvent = () => {
         saveEventInCase(id, inputValuesEvent);
+        setIsOpenEvent(false);
     }
 
     const handleDelete = () => {
         deleteCase(id);
-        navigate("/dossiers"); 
+        navigate("/dossiers");
     }
 
 
     const handleDeleteClientInCase = (client_id: any) => {
         deleteClientInCase(id, client_id);
-        getCase(id, setDataFolder, setInputValues, setState);
+        setReload(!reload);
     }
 
 
@@ -141,7 +148,8 @@ const FolderDetailPage = () => {
 
     const handleChangeCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
         setState(event.target.checked);
-        setInputValues({ ...inputValues, case_status: state });
+
+        setInputValues({ ...inputValues, case_status: event.target.checked });
     };
 
     return (
@@ -206,7 +214,7 @@ const FolderDetailPage = () => {
                         </div>
                         <div className={styles.folderInProgress}>
                             <EventIcon color="secondary" sx={{ fontSize: 50 }} />
-                            <h3>Evenement</h3>
+                            <h3>Evenements</h3>
                             <ul>
                                 {dataFolder?.event?.map((element: any) => <li key={element.event_id}>{element.event_description + " " + convertDateFR(element.event_date) + " Durée " + element.event_duration + "h"}</li>)}
                             </ul>
@@ -222,13 +230,19 @@ const FolderDetailPage = () => {
                 </div>
             </div>
 
-            <ModalComponent isOpen={isOpen} handleClose={handleDialogClose} title="Modification de l'affaire">
+            <ModalComponent isOpen={isOpen} handleClose={handleDialogClose}
+                buttonAction={
+                    <Button onClick={handleSubmit} variant="contained" color="primary">
+                        Modifier
+                    </Button>
+                }
+                title="Modification de l'affaire">
 
                 <div style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
 
                     <h1>Formulaire pour modifier une affaire</h1>
 
-                    <form onClick={handleSubmit} style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
+                    <form style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
                         <TextField
                             style={{ width: "250px", margin: "5px" }}
                             type="text"
@@ -243,21 +257,25 @@ const FolderDetailPage = () => {
                         <FormControlLabel control={<Switch name="case_status" onChange={handleChangeCheckbox} value={state} />} label={state === false ? "En cours" : "Terminée"} />
                         <br />
                         <br />
-                        <Button type="submit" style={{ width: "250px", margin: "5px" }} variant="contained" color="primary">
-                            Sauvegarder
-                        </Button>
+
                     </form>
 
                 </div>
 
             </ModalComponent>
 
-            <ModalComponent isOpen={isOpenEvent} handleClose={handleDialogEventClose} title="Ajout d'un évènement">
+            <ModalComponent isOpen={isOpenEvent} handleClose={handleDialogEventClose}
+                buttonAction={
+                    <Button onClick={handleSubmitEvent} variant="contained" color="primary">
+                        Ajouter
+                    </Button>
+                }
+                title="Ajout d'un évènement">
                 <div style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
 
                     <h1>Formulaire pour ajouter un évènement à l'affaire</h1>
 
-                    <form onSubmit={handleSubmitEvent} style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
+                    <form style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
                         <TextField
                             style={{ width: "250px", margin: "5px" }}
                             type="text"
@@ -296,10 +314,7 @@ const FolderDetailPage = () => {
                             required
                         />
                         <br />
-                        <br />
-                        <Button type="submit" style={{ width: "250px", margin: "5px" }} variant="contained" color="primary">
-                            Ajouter
-                        </Button>
+
                     </form>
                 </div>
             </ModalComponent>
@@ -307,12 +322,19 @@ const FolderDetailPage = () => {
 
 
 
-            <ModalComponent isOpen={isOpenClient} handleClose={handleDialogClientClose} title="Ajout d'un évènement">
+            <ModalComponent isOpen={isOpenClient} handleClose={handleDialogClientClose}
+                buttonAction={
+                    <Button onClick={handleSubmitClient} variant="contained" color="primary">
+                        Ajouter
+                    </Button>
+                }
+
+                title="Ajout d'un client à l'affaire">
                 <div style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
 
                     <h1>Formulaire pour ajouter un client à l'affaire</h1>
 
-                    <form onSubmit={handleSubmitClient} style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
+                    <form style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
@@ -325,20 +347,20 @@ const FolderDetailPage = () => {
 
                         </Select>
                         <br />
-                        <br />
-                        <Button type='submit' style={{ width: "250px", margin: "5px" }} variant="contained" color="primary">
-                            Ajouter
-                        </Button>
                     </form>
                 </div>
             </ModalComponent>
 
-            <ModalComponent isOpen={isOpenDelete} handleClose={handleDialogDeleteClose} title="Suppression d'un client">
-                <>
-                    <h2>Etes-vous sur de vouloir supprimer l'affaire n° {id} ?</h2>
+            <ModalComponent isOpen={isOpenDelete} handleClose={handleDialogDeleteClose}
+                buttonAction={
                     <Button onClick={handleDelete} variant="contained" color="error">
                         Supprimer
                     </Button>
+                }
+                title="Suppression d'un client">
+                <>
+                    <h2>Etes-vous sur de vouloir supprimer l'affaire n° {id} ?</h2>
+
                 </>
             </ModalComponent>
         </>

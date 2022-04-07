@@ -66,7 +66,7 @@ const ClientDetailPage = () => {
 
   const handleDelete = () => {
     deleteClient(id);
-    navigate("/clients"); 
+    navigate("/clients");
   }
 
 
@@ -89,9 +89,10 @@ const ClientDetailPage = () => {
           <div className={styles.groupbutton}>
             <Button onClick={handleDialogOpen} className={styles.btnupdate}>Modifier</Button>
             {
-              dataClient?.cases?.length === 0 ? <Button onClick={handleDialogDeleteOpen} className={styles.btndelete}>Supprimer</Button> : <p>Client lié à des affaires</p>
+              dataClient?.cases?.length === 0 ? <Button onClick={handleDialogDeleteOpen} className={styles.btndelete}>Supprimer</Button> :
+                <Button disabled className={styles.btndelete}>Supprimer</Button>
             }
-            
+
           </div>
         </div>
 
@@ -121,7 +122,11 @@ const ClientDetailPage = () => {
         </div>
       </div>
 
-      <ModalComponent isOpen={isOpen} handleClose={handleDialogClose} title='Modification du client'>
+      <ModalComponent isOpen={isOpen} handleClose={handleDialogClose}
+        buttonAction={<Button type="submit" style={{ width: "250px", margin: "5px" }} variant="contained" color="primary">
+          Ajouter
+        </Button>}
+        title='Modification du client'>
 
         <div style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
 
@@ -176,22 +181,23 @@ const ClientDetailPage = () => {
               />
             </LocalizationProvider>
             <br />
-            <br />
-            <Button type="submit" style={{ width: "250px", margin: "5px" }} variant="contained" color="primary">
-              save
-            </Button>
+
           </form>
 
         </div>
 
       </ModalComponent>
 
-      <ModalComponent isOpen={isOpenDelete} handleClose={handleDialogDeleteClose} title="Suppression d'un client">
+      <ModalComponent isOpen={isOpenDelete} handleClose={handleDialogDeleteClose}
+        buttonAction={
+          <Button
+            onClick={handleDelete} variant="contained" color="error">
+            Supprimer
+          </Button>}
+        title="Suppression d'un client">
         <>
           <h2>Etes-vous sur de vouloir supprimer le client {dataClient?.client_first_name + " " + dataClient?.client_last_name} ?</h2>
-          <Button onClick={ handleDelete} variant="contained" color="error">
-            Supprimer
-          </Button>
+
         </>
       </ModalComponent>
     </>

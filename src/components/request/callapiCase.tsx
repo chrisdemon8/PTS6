@@ -96,6 +96,7 @@ export const saveCase = (inputValues: any) => {
 
 export const saveEventInCase = (id: any, inputValuesEvent: any) => {
 
+    console.log("test", id, inputValuesEvent); 
     fetch(prefixUrl + `api/case/${id}/event/save`, {
         method: 'POST',
         headers: {

@@ -31,15 +31,16 @@ const ClientPage = () => {
   }
 
   const [value, setValue] = React.useState<Date | null>(new Date());
- 
- 
+
+
   const handleSubmit = () => {
     saveClient(inputValues);
+    setIsOpen(false);
   }
 
   useEffect(() => {
     loadClients(setDataClients);
-  }, []);
+  }, [isOpen]);
 
   console.log(dataClients);
 
@@ -51,7 +52,7 @@ const ClientPage = () => {
   var locale_date_string = d.toLocaleDateString();
 
   console.log(locale_date_string);*/
- 
+
   return (
     <>
 
@@ -60,8 +61,8 @@ const ClientPage = () => {
         <h1>Listes des clients</h1>
         <Button onClick={handleDialogOpen}>Ajouter un client</Button>
         <Table columns={[
-          { title: "Prénom", field: "client_first_name",  filtering: false },
-          { title: "Nom de famille", field: "client_last_name",  filtering: false }
+          { title: "Prénom", field: "client_first_name", filtering: false },
+          { title: "Nom de famille", field: "client_last_name", filtering: false }
         ]} dataFrom={dataClients}
           nameId="client_id"
         />
@@ -70,12 +71,18 @@ const ClientPage = () => {
 
 
 
-      <ModalComponent isOpen={isOpen} handleClose={handleDialogClose} title="Ajout d'un évènement">
+      <ModalComponent isOpen={isOpen} handleClose={handleDialogClose}
+        buttonAction={ 
+          <Button onClick={handleSubmit} variant="contained" color="primary">
+            Ajouter
+          </Button>
+        }
+        title="Ajout d'un client">
         <div style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
 
           <h2>Formulaire pour ajouter un client</h2>
 
-          <form onSubmit={handleSubmit} style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
+          <form style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
             <TextField
               style={{ width: "250px", margin: "5px" }}
               type="text"
@@ -112,16 +119,12 @@ const ClientPage = () => {
                 value={value}
                 onChange={(newValue) => {
                   setInputValues({ ...inputValues, "client_birthday": newValue });
-                  setValue(newValue); 
+                  setValue(newValue);
                 }}
                 renderInput={(params) => <TextField {...params} />}
               />
             </LocalizationProvider>
             <br />
-            <br />
-            <Button type='submit' style={{ width: "250px", margin: "5px" }} variant="contained" color="primary">
-              Ajouter
-            </Button>
           </form>
         </div>
       </ModalComponent>

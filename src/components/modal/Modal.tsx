@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import PropTypes, { InferProps } from 'prop-types';
 
-export default function ModalComponent({ isOpen, handleClose, title, subtitle, children }: InferProps<typeof ModalComponent.propTypes>) {
+export default function ModalComponent({ isOpen, handleClose, title, subtitle, children, buttonAction }: InferProps<typeof ModalComponent.propTypes>) {
     return (
         <>
             <Dialog
@@ -25,6 +25,7 @@ export default function ModalComponent({ isOpen, handleClose, title, subtitle, c
                     {children}
                 </DialogContent>
                 <DialogActions>
+                {buttonAction}
                     <Button onClick={handleClose} color='primary'>
                         Fermer
                     </Button>
@@ -41,4 +42,5 @@ ModalComponent.propTypes = {
     title: PropTypes.string.isRequired,
     subtitle: PropTypes.string,
     children: PropTypes.element.isRequired,
+    buttonAction: PropTypes.element.isRequired,
 };

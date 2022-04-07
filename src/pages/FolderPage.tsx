@@ -33,18 +33,14 @@ const FolderPage = () => {
     setIsOpen(false);
   }
 
-  const [age, setAge] = React.useState('');
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value as string);
-  };
 
   useEffect(() => {
     getCases(setDataCases);
-  }, []);
+  }, [isOpen]);
 
   const handleSubmit = () => {
     saveCase(inputValues);
+    setIsOpen(false);
   }
 
   return (
@@ -61,7 +57,13 @@ const FolderPage = () => {
       />}
 
 
-      <ModalComponent isOpen={isOpen} handleClose={handleDialogClose} title="Ajout d'un évènement">
+      <ModalComponent isOpen={isOpen} handleClose={handleDialogClose}
+        buttonAction={
+          <Button onClick={handleSubmit} variant="contained" color="primary">
+            Ajouter
+          </Button>
+        }
+        title="Ajout d'un évènement">
         <div style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
 
           <h2>Formulaire pour ajouter un client</h2>
@@ -77,10 +79,7 @@ const FolderPage = () => {
               required
             />
             <br />
-            <br />
-            <Button onClick={handleSubmit} style={{ width: "250px", margin: "5px" }} variant="contained" color="primary">
-              Ajouter
-            </Button>
+
           </form>
         </div>
       </ModalComponent>
